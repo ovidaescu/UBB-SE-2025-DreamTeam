@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Duoapp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c5fc0dfa1f2b1ce992dbc7fadf53cf497ead90c8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e4a5865a11cfec343a11ac34977739f721c405c3")]
 [assembly: System.Reflection.AssemblyProductAttribute("Duoapp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Duoapp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
