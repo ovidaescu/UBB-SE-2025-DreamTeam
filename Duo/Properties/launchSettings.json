@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "DuolingoNou (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "DuolingoNou (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
