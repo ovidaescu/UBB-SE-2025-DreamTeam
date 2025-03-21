@@ -1,1 +1,0 @@
-D:\Floder\Duoapp\App1\Duoapp.csproj;x64
