@@ -1,9 +1,9 @@
 {
   "profiles": {
-    "DuolingoNou (Package)": {
+    "Duo (Package)": {
       "commandName": "MsixPackage"
     },
-    "DuolingoNou (Unpackaged)": {
+    "Duo (Unpackaged)": {
       "commandName": "Project"
     }
   }
