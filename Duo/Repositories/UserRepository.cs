@@ -21,9 +21,8 @@ public class UserRepository
     {
         SqlParameter[] parameters = new SqlParameter[]
         {
-        new SqlParameter("@Name", user.Name),
-        new SqlParameter("@Email", user.Email),
-        new SqlParameter("@Age", user.Age)
+        new SqlParameter("@Name", user.UserName),
+        new SqlParameter("@Email", user.Email)
         };
 
         try
@@ -51,10 +50,9 @@ public class UserRepository
     {
         SqlParameter[] parameters = new SqlParameter[]
         {
-        new SqlParameter("@Id", user.Id),
-        new SqlParameter("@Name", user.Name),
-        new SqlParameter("@Email", user.Email),
-        new SqlParameter("@Age", user.Age)
+        new SqlParameter("@Id", user.UserId),
+        new SqlParameter("@Name", user.UserName),
+        new SqlParameter("@Email", user.Email)
         };
         dataLink.ExecuteNonQuery("UpdateUser", parameters);
     }
@@ -74,10 +72,9 @@ public class UserRepository
             DataRow row = dataTable.Rows[0];
             return new User
             {
-                Id = Convert.ToInt32(row["Id"]),
-                Name = row["Name"].ToString() ?? string.Empty,
-                Email = row["Email"].ToString() ?? string.Empty,
-                Age = Convert.ToInt32(row["Age"])
+                UserId = Convert.ToInt32(row["Id"]),
+                UserName = row["Name"].ToString() ?? string.Empty,
+                Email = row["Email"].ToString() ?? string.Empty
             };
         }
 
@@ -94,10 +91,9 @@ public class UserRepository
         {
             users.Add(new User
             {
-                Id = Convert.ToInt32(row["Id"]),
-                Name = row["Name"].ToString() ?? string.Empty,
-                Email = row["Email"].ToString() ?? string.Empty,
-                Age = Convert.ToInt32(row["Age"])
+                UserId = Convert.ToInt32(row["Id"]),
+                UserName = row["Name"].ToString() ?? string.Empty,
+                Email = row["Email"].ToString() ?? string.Empty
             });
         }
 
