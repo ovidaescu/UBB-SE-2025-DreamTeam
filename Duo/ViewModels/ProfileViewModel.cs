@@ -1,4 +1,4 @@
-﻿namespace DuolingoNou.ViewModels;
+﻿namespace Duo.ViewModels;
 
 class ProfileViewModel
 {
