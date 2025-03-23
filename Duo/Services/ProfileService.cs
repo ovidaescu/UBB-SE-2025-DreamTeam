@@ -12,10 +12,5 @@ namespace Duo.Services
         {
             _userRepository = new UserRepository(App.userRepository.DataLink);
         }
-
-        public void CreateUser(User user)
-        {
-            _userRepository.CreateUser(user);
-        }
     }
 }

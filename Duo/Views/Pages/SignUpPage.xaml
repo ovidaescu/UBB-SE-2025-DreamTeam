@@ -14,8 +14,20 @@
 
             <TextBox PlaceholderText="Username" Text="{Binding NewUser.UserName, Mode=TwoWay}"/>
             <TextBox PlaceholderText="Email" Text="{Binding NewUser.Email, Mode=TwoWay}"/>
-            <TextBox PlaceholderText="Password" Text="{Binding NewUser.Password, Mode=TwoWay}"/>
+            <PasswordBox x:Name="PasswordBoxWithRevealMode" />
+
+            <CheckBox x:Name="RevealModeCheckBox" Content="Show Password" Checked="RevealModeCheckbox_Changed" Unchecked="RevealModeCheckbox_Changed" />
+
+
             <Button Content="Create Account" Click="OnCreateUserClick"/>
+            <Button Content="Already have an account? Login"
+                Click="NavigateToLoginPage"
+                HorizontalAlignment="Center"
+                Foreground="Blue"
+                BorderThickness="0"
+                FontSize="14"
+                Padding="5"/>
+
         </StackPanel>
     </Grid>
 </Page>

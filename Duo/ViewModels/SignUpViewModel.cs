@@ -7,18 +7,18 @@ namespace Duo.ViewModels
     public class SignUpViewModel
     {
         public User NewUser { get; set; }
-        private readonly ProfileService _profileService;
+        private readonly SignUpService _signUpService;
 
         public SignUpViewModel()
         {
-            _profileService = new ProfileService();
+            _signUpService = new SignUpService();
             NewUser = new User();
         }
 
         public void CreateNewUser()
         {
             NewUser.DateJoined = DateTime.Now;
-            _profileService.CreateUser(NewUser);
+            _signUpService.RegisterUser(NewUser);
         }
     }
 }

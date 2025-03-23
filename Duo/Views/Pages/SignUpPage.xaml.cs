@@ -19,5 +19,22 @@ namespace DuolingoNou.Views.Pages
         {
             ViewModel.CreateNewUser();
         }
+
+        private void RevealModeCheckbox_Changed(object sender, RoutedEventArgs e)
+        {
+            if (RevealModeCheckBox.IsChecked == true)
+            {
+                PasswordBoxWithRevealMode.PasswordRevealMode = PasswordRevealMode.Visible;
+            }
+            else
+            {
+                PasswordBoxWithRevealMode.PasswordRevealMode = PasswordRevealMode.Hidden;
+            }
+        }
+
+        private void NavigateToLoginPage(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(LoginPage));
+        }
     }
 }
