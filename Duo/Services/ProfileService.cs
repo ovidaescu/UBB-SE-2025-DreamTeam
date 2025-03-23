@@ -17,5 +17,14 @@ namespace Duo.Services
         {
             _userRepository.CreateUser(user);
         }
+
+        public void UpdateUser(User user)
+        {
+            _userRepository.UpdateUser(user);
+        }
+
+
+       
+
     }
 }

@@ -31,10 +31,29 @@ namespace Duo.Repositories
                 new SqlParameter("@Streak", user.Streak)
                 
             };
-
-
-
             DataLink.ExecuteNonQuery("CreateUser", parameters);
         }
+
+        public void UpdateUser(User user)
+        {
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@UserId", user.UserId),
+                new SqlParameter("@UserName", user.UserName),
+                new SqlParameter("@Email", user.Email),
+                new SqlParameter("@Password", user.Password),
+                new SqlParameter("@PrivacyStatus", user.PrivacyStatus),
+                new SqlParameter("@OnlineStatus", user.OnlineStatus),
+                new SqlParameter("@DateJoined", user.DateJoined),
+                new SqlParameter("@ProfileImage", user.ProfileImage ?? ""),
+                new SqlParameter("@TotalPoints", user.TotalPoints),
+                new SqlParameter("@CoursesCompleted", user.CoursesCompleted),
+                new SqlParameter("@QuizzesCompleted", user.QuizzesCompleted),
+                new SqlParameter("@Streak", user.Streak)
+            };
+
+            DataLink.ExecuteNonQuery("UpdateUser", parameters);
+        }
+
     }
 }
