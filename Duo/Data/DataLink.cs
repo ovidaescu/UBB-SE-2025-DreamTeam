@@ -14,7 +14,8 @@ public class DataLink
     public DataLink(IConfiguration configuration)
     {
         string? localDataSource = configuration["LocalDataSource"];
-        string? initialCatalog = configuration["IntialCatalog"];
+        string? initialCatalog = configuration["InitialCatalog"];
+
 
         connectionString = "Data Source=" + localDataSource + ";" +
                            "Initial Catalog=" + initialCatalog + ";" +
