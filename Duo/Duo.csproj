@@ -3,7 +3,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
-    <RootNamespace>Duo</RootNamespace>
+    <RootNamespace>DuolingoNou</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <Platforms>x86;x64;ARM64</Platforms>
     <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
@@ -13,14 +13,14 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="Views\Components\**" />
-    <EmbeddedResource Remove="Views\Components\**" />
-    <None Remove="Views\Components\**" />
-    <Page Remove="Views\Components\**" />
+    <None Remove="appsettings.json" />
+    <None Remove="Views\ProfileView.xaml" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="appsettings.json" />
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
@@ -51,6 +51,11 @@
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250310001" />
   </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\ProfileView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
 
   <!--
     Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution
@@ -68,10 +73,4 @@
     <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
     <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
   </PropertyGroup>
-  <ItemGroup>
-    <PRIResource Remove="Views\Components\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="appsettings.json" />
-  </ItemGroup>
 </Project>
