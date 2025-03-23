@@ -1,0 +1,16 @@
+<Page
+    x:Class="Duo.Views.ProfileView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Duo.Views"
+    xmlns:vm="using:Duo.ViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel Padding="20">
+        <TextBox Header="User Name" Text="{x:Bind ViewModel.NewUser.UserName, Mode=TwoWay}" />
+        <TextBox Header="Email" Text="{x:Bind ViewModel.NewUser.Email, Mode=TwoWay}" />
+        <Button Content="Create New Account" Click="OnCreateUserClick"/>
+    </StackPanel>
+</Page>
