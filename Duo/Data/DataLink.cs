@@ -16,7 +16,6 @@ public class DataLink
         string? localDataSource = configuration["LocalDataSource"];
         string? initialCatalog = configuration["InitialCatalog"];
 
-
         connectionString = "Data Source=" + localDataSource + ";" +
                            "Initial Catalog=" + initialCatalog + ";" +
                            "Integrated Security=True;" +
