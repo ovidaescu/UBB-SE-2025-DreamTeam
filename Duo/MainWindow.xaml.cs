@@ -1,8 +1,8 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using DuolingoNou.Views.Pages; // Corrected namespace for Pages
+using Duo.Views.Pages; 
 
-namespace DuolingoNou
+namespace Duo
 {
     public sealed partial class MainWindow : Window
     {

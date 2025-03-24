@@ -2,7 +2,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Duo.ViewModels;
 
-namespace DuolingoNou.Views.Pages
+namespace Duo.Views.Pages
 {
     public sealed partial class SignUpPage : Page
     {

@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Diagnostics;
 
-namespace DuolingoNou.Views.Pages
+namespace Duo.Views.Pages
 {
     public sealed partial class LoginPage : Page
     {

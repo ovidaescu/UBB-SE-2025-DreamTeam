@@ -15,6 +15,7 @@ public class User
     public int CoursesCompleted { get; set; } = 0;
     public int QuizzesCompleted { get; set; } = 0;
     public int Streak { get; set; } = 0;
-
     public string Password { get; set; } = string.Empty;
+
+    public decimal Accuracy { get; set; } = 0.00m;
 }
