@@ -2,6 +2,9 @@
 using Microsoft.Data.SqlClient;
 using Duo.Models;
 using Duo.Data;
+using System.Collections.Generic;
+using System;
+using Duo.Helpers;
 
 namespace Duo.Repositories
 {
@@ -29,12 +32,35 @@ namespace Duo.Repositories
                 new SqlParameter("@CoursesCompleted", user.CoursesCompleted),
                 new SqlParameter("@QuizzesCompleted", user.QuizzesCompleted),
                 new SqlParameter("@Streak", user.Streak)
-                
+                new SqlParameter("@Accuracy", user.Accuracy)
+
             };
-
-
-
             DataLink.ExecuteNonQuery("CreateUser", parameters);
         }
+
+        public List<User> GetTopUsersByCompletedQuizzes()
+        {
+            var DataTable = DataLink.ExecuteReader("GetTopUsersByCompletedQuizzes");
+            List<User> users = new List<User>();
+            foreach (DataRow row in DataTable.Rows)
+            {
+                users.Add(Mappers.MapUser(row));
+            }
+
+            return users;
+        }
+        public List<User> GetTopUsersByAccuracy()
+        {
+            var DataTable = DataLink.ExecuteReader("GetTopUsersByAccuracy");
+            List<User> users = new List<User>();
+            foreach (DataRow row in DataTable.Rows)
+            {
+                users.Add(Mappers.MapUser(row));
+            }
+
+            return users;
+        }
+
+
     }
 }

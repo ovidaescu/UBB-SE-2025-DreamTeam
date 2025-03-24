@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Duo.Data;
 using Duo.Repositories;
 using System.IO;
-using DuolingoNou;
+using Duo;
 
 namespace Duo
 {
