@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace DuolingoNou.Views.Pages
 {
@@ -18,15 +19,9 @@ namespace DuolingoNou.Views.Pages
 
         private void RevealModeCheckbox_Changed(object sender, RoutedEventArgs e)
         {
-            if (RevealModeCheckBox.IsChecked == true)
-            {
-                PasswordBoxWithRevealMode.PasswordRevealMode = PasswordRevealMode.Visible;
-            }
-            else
-            {
-                PasswordBoxWithRevealMode.PasswordRevealMode = PasswordRevealMode.Hidden;
-            }
+            PasswordBoxWithRevealMode.PasswordRevealMode = RevealModeCheckBox.IsChecked == true ? PasswordRevealMode.Visible : PasswordRevealMode.Hidden;
         }
+
         private void NavigateToSignUpPage(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(SignUpPage));
@@ -35,19 +30,28 @@ namespace DuolingoNou.Views.Pages
         private void OnLoginButtonClick(object sender, RoutedEventArgs e)
         {
             string username = UsernameTextBox.Text;
-            string password = PasswordBoxWithRevealMode.Password; 
-            Console.WriteLine(username);
-            ViewModel.AttemptLogin(username,password);
-            if (ViewModel.LoginStatus)
+            string password = PasswordBoxWithRevealMode.Password;
+            ViewModel.AttemptLogin(username, password);
+
+            LoginStatusMessage.Text = ViewModel.LoginStatus ? "You have successfully logged in!" : "Invalid username or password.";
+            LoginStatusMessage.Visibility = Visibility.Visible;
+        }
+
+        private void OnForgotPasswordClick(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(ResetPasswordPage));
+        }
+
+        private async Task ShowDialog(string title, string content)
+        {
+            ContentDialog dialog = new ContentDialog
             {
-                LoginStatusMessage.Text = "You have successfully logged in!";
-                LoginStatusMessage.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                LoginStatusMessage.Text = "Invalid username or password.";
-                LoginStatusMessage.Visibility = Visibility.Visible;
-            }
+                Title = title,
+                Content = content,
+                CloseButtonText = "OK",
+                XamlRoot = this.XamlRoot
+            };
+            await dialog.ShowAsync();
         }
     }
 }

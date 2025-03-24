@@ -9,7 +9,7 @@ namespace DuolingoNou
         public MainWindow()
         {
             this.InitializeComponent();
-            MainFrame.Navigate(typeof(SignUpPage));
+            MainFrame.Navigate(typeof(LoginPage));
         }
     }
 }
