@@ -36,7 +36,7 @@ namespace Duo.Repositories
                     return null;
                 }
                 var row = dataTable.Rows[0];
-                return MapUser(dataTable.Rows[0]);
+                return Mappers.MapUser(dataTable.Rows[0]);
             }
             catch (SqlException ex)
             {
@@ -67,7 +67,7 @@ namespace Duo.Repositories
                     return null;
                 }
                 var row = dataTable.Rows[0];
-                return MapUser(dataTable.Rows[0]);
+                return Mappers.MapUser(dataTable.Rows[0]);
             }
             catch (SqlException ex)
             {
@@ -93,7 +93,8 @@ namespace Duo.Repositories
                 new SqlParameter("@TotalPoints", user.TotalPoints),
                 new SqlParameter("@CoursesCompleted", user.CoursesCompleted),
                 new SqlParameter("@QuizzesCompleted", user.QuizzesCompleted),
-                new SqlParameter("@Streak", user.Streak)
+                new SqlParameter("@Streak", user.Streak),
+                new SqlParameter("@Accuracy", user.Accuracy)
 
             };
             DataLink.ExecuteNonQuery("CreateUser", parameters);
@@ -115,7 +116,8 @@ namespace Duo.Repositories
                 new SqlParameter("@TotalPoints", user.TotalPoints),
                 new SqlParameter("@CoursesCompleted", user.CoursesCompleted),
                 new SqlParameter("@QuizzesCompleted", user.QuizzesCompleted),
-                new SqlParameter("@Streak", user.Streak)
+                new SqlParameter("@Streak", user.Streak),
+                new SqlParameter("@Accuracy", user.Accuracy)
             };
 
             DataLink.ExecuteNonQuery("UpdateUser", parameters);
@@ -126,28 +128,6 @@ namespace Duo.Repositories
         {
             User? user = GetUserByUsername(username);
             return user != null && user.Password == password;
-        }
-
-        private User MapUser(DataRow row)
-        {
-            return new User
-            {
-                UserId = Convert.ToInt32(row["UserId"]),
-                UserName = row["UserName"].ToString()!,
-                Email = row["Email"].ToString()!,
-                PrivacyStatus = Convert.ToBoolean(row["PrivacyStatus"]),
-                OnlineStatus = Convert.ToBoolean(row["OnlineStatus"]),
-                DateJoined = Convert.ToDateTime(row["DateJoined"]),
-                ProfileImage = row["ProfileImage"].ToString()!,
-                TotalPoints = Convert.ToInt32(row["TotalPoints"]),
-                CoursesCompleted = Convert.ToInt32(row["CoursesCompleted"]),
-                QuizzesCompleted = Convert.ToInt32(row["QuizzesCompleted"]),
-                Streak = Convert.ToInt32(row["Streak"]),
-                Password = row["Password"].ToString()!
-                new SqlParameter("@Accuracy", user.Accuracy)
-
-            };
-            DataLink.ExecuteNonQuery("CreateUser", parameters);
         }
 
         public List<User> GetTopUsersByCompletedQuizzes()
@@ -161,6 +141,7 @@ namespace Duo.Repositories
 
             return users;
         }
+
         public List<User> GetTopUsersByAccuracy()
         {
             var DataTable = DataLink.ExecuteReader("GetTopUsersByAccuracy");
@@ -169,6 +150,9 @@ namespace Duo.Repositories
             {
                 users.Add(Mappers.MapUser(row));
             }
+            return users;
+        }
+
         internal User GetUserByCredentials(string username, string password)
         {
             var user = GetUserByUsername(username);
@@ -176,8 +160,6 @@ namespace Duo.Repositories
             {
                 return user;
             }
-
-            return users;
             return null; // Either user not found or password doesn't match
         }
 

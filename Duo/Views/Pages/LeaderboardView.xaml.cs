@@ -26,7 +26,7 @@ namespace Duo.Views.Pages;
 /// </summary>
 public sealed partial class LeaderboardView : Page
 {
-    LeadorBoardViewModel viewModel = new LeadorBoardViewModel();
+    LeaderBoardViewModel viewModel = new LeaderBoardViewModel();
 
     public void handleLeaderboard()
     {

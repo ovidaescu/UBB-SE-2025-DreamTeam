@@ -1,6 +1,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Duo.ViewModels;
+using DuolingoNou.Views;
 
 namespace Duo.Views.Pages
 {
@@ -24,7 +25,7 @@ namespace Duo.Views.Pages
             ViewModel.CreateNewUser();
 
             // Optionally set the CurrentUser globally if needed
-            Duo.App.CurrentUser = ViewModel.NewUser;
+            //Duo.App.CurrentUser = ViewModel.NewUser;
 
             // Navigate to app shell
             Frame.Navigate(typeof(ShellPage));

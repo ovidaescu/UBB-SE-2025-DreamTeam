@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Duo.Views.Pages
 {
-    internal class LeadorBoardViewModel
+    internal class LeaderBoardViewModel
     {
         //LeaderboardService _leaderboardService = new LeaderboardService();
 
