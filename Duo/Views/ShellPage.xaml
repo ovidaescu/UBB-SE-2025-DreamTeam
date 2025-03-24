@@ -1,4 +1,4 @@
-<Page
+﻿<Page
     x:Class="DuolingoNou.Views.ShellPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -16,22 +16,40 @@
                     SelectionChanged="NavView_SelectionChanged">
 
         <NavigationView.MenuItems>
-            <!-- Profile cu subcategorii -->
             <NavigationViewItem Content="Profile" Icon="Contact" Tag="Profile">
                 <NavigationViewItem.MenuItems>
+
+                    <!-- SEARCH BAR INSERTED -->
+                    <StackPanel Orientation="Horizontal" Padding="6" Margin="0,4,0,4">
+                        <TextBox x:Name="SearchBox"
+                                 PlaceholderText="Search"
+                                 Width="160"
+                                 VerticalAlignment="Center"
+                                 Margin="0,0,6,0"/>
+                        <Button Click="SearchButton_Click"
+                                Width="36"
+                                Height="36"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                VerticalAlignment="Center">
+                            <FontIcon Glyph="&#xE721;" FontSize="16"/>
+                        </Button>
+                    </StackPanel>
+
+                    <!-- Navigation Items -->
                     <NavigationViewItem Content="Home Page" Icon="Home" Tag="HomePage" />
                     <NavigationViewItem Content="Stats" Tag="Stats">
                         <NavigationViewItem.Icon>
                             <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE9D2;" />
-                            <!-- Pictograma BarChart4 -->
                         </NavigationViewItem.Icon>
                     </NavigationViewItem>
                     <NavigationViewItem Content="Leaderboards" Icon="People" Tag="Leaderboards" />
                     <NavigationViewItem Content="Settings" Icon="Setting" Tag="Settings" />
+
                 </NavigationViewItem.MenuItems>
             </NavigationViewItem>
 
-            <!-- Alte categorii principale -->
+            <!-- Other Main Items -->
             <NavigationViewItem Content="Courses" Icon="Library" Tag="Courses" />
             <NavigationViewItem Content="Quiz" Icon="Help" Tag="Quiz" />
         </NavigationView.MenuItems>

@@ -6,9 +6,7 @@
     RequestedTheme="Light">
 
     <Application.Resources>
-        
-        <controls:XamlControlsResources xmlns:controls="using:Microsoft.UI.Xaml.Controls" />
 
-       
+        <controls:XamlControlsResources xmlns:controls="using:Microsoft.UI.Xaml.Controls" />
     </Application.Resources>
 </Application>

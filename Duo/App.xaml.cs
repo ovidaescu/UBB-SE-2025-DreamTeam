@@ -19,6 +19,8 @@ namespace Duo
 
         public static Window MainAppWindow { get; private set; }
 
+
+
         public App()
         {
             this.InitializeComponent();
