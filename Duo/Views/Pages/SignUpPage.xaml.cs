@@ -25,7 +25,7 @@ namespace Duo.Views.Pages
             ViewModel.CreateNewUser();
 
             // Optionally set the CurrentUser globally if needed
-            //Duo.App.CurrentUser = ViewModel.NewUser;
+            Duo.App.CurrentUser = ViewModel.NewUser;
 
             // Navigate to app shell
             Frame.Navigate(typeof(ShellPage));

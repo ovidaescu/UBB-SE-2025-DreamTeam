@@ -1,4 +1,4 @@
-CREATE or ALTER PROCEDURE GetTopUsersByCompletedQuizzes
+CREATE or ALTER PROCEDURE GetTopUsersByAccuracy
 AS
 Begin
 	Select TOP 10 *

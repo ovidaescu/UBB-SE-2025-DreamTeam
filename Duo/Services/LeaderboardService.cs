@@ -9,16 +9,16 @@ class LeaderboardService
     private readonly UserRepository _userRepository;
     private readonly FriendsRepository _friendsRepository;
 
-    public LeaderboardService(UserRepository userRepository, FriendsRepository friendsRepository)
+    public LeaderboardService()
     {
-        _userRepository = userRepository;
-        _friendsRepository = friendsRepository;
+        _userRepository = new UserRepository(App.userRepository.DataLink);
+        _friendsRepository = new FriendsRepository(App.friendsRepository.DataLink);
     }
 
     public List<User> GetGlobalLeaderboard(string criteria)
     {
         //return the first 10 users in the repo sorted by completed quizzes
-        if (criteria == "QuizzesCompleted")
+        if (criteria == "CompletedQuizzes")
         {
             return _userRepository.GetTopUsersByCompletedQuizzes();
         }
@@ -32,17 +32,17 @@ class LeaderboardService
             throw new System.Exception("Invalid criteria");
         }
     }
-    public List<User> GetFriendsLeaderboard(string criteria)
+    public List<User> GetFriendsLeaderboard(int userId, string criteria)
     {
         //return the first 10 users in the repo sorted by completed quizzes
-        if (criteria == "QuizzesCompleted")
+        if (criteria == "CompletedQuizzes")
         {
-            return _friendsRepository.GetTopFriendsByCompletedQuizzes();
+            return _friendsRepository.GetTopFriendsByCompletedQuizzes(userId);
         }
         //return the first 10 users in the repo sorted by accurracy
         else if (criteria == "Accuracy")
         {
-            return _friendsRepository.GetTopFriendsByAccuracy();
+            return _friendsRepository.GetTopFriendsByAccuracy(userId);
         }
         else
         {

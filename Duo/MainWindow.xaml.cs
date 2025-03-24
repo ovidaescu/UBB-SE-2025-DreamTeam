@@ -9,7 +9,7 @@ namespace Duo
         public MainWindow()
         {
             this.InitializeComponent();
-            MainFrame.Navigate(typeof(LeaderboardView));
+            MainFrame.Navigate(typeof(LoginPage));
         }
     }
 }

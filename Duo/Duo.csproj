@@ -54,7 +54,7 @@
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250310001" />
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Views\Pages\LeaderboardView.xaml">
+    <Page Update="Views\Pages\LeaderboardPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
