@@ -33,10 +33,8 @@ namespace DuolingoNou.Views.Pages
             {
                 UsernameInput.Text = _viewModel.CurrentUser.UserName;
                 EmailInput.Text = _viewModel.CurrentUser.Email;
-                PasswordInput.Password = _viewModel.CurrentUser.Password;
                 PublicRadio.IsChecked = !_viewModel.CurrentUser.PrivacyStatus;
                 PrivateRadio.IsChecked = _viewModel.CurrentUser.PrivacyStatus;
-
                 string base64 = _viewModel.CurrentUser.ProfileImage;
 
                 if (!string.IsNullOrWhiteSpace(base64) && IsBase64String(base64))
@@ -139,10 +137,10 @@ namespace DuolingoNou.Views.Pages
 
         private void OnSaveChangesClick(object sender, RoutedEventArgs e)
         {
-            string password = PasswordInput.Password;
+            
             bool isPrivate = PrivateRadio.IsChecked == true;
 
-            _viewModel.SaveChanges(password, isPrivate, _selectedImageBase64);
+            _viewModel.SaveChanges(isPrivate, _selectedImageBase64);
 
 
             ContentDialog dialog = new ContentDialog
@@ -156,18 +154,10 @@ namespace DuolingoNou.Views.Pages
         }
 
 
-        private void ShowPasswordToggle_Checked(object sender, RoutedEventArgs e)
+        private void ChangePassword_Click(object sender, RoutedEventArgs e)
         {
-            VisiblePasswordInput.Text = PasswordInput.Password;
-            PasswordInput.Visibility = Visibility.Collapsed;
-            VisiblePasswordInput.Visibility = Visibility.Visible;
+            Frame.Navigate(typeof(ResetPasswordPage));
         }
 
-        private void ShowPasswordToggle_Unchecked(object sender, RoutedEventArgs e)
-        {
-            PasswordInput.Password = VisiblePasswordInput.Text;
-            PasswordInput.Visibility = Visibility.Visible;
-            VisiblePasswordInput.Visibility = Visibility.Collapsed;
-        }
     }
-    }
+}

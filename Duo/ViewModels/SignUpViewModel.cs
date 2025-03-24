@@ -1,24 +1,36 @@
 ﻿using System;
 using Duo.Services;
 using Duo.Models;
+using System.Threading.Tasks;
 
 namespace Duo.ViewModels
 {
     public class SignUpViewModel
     {
-        public User NewUser { get; set; }
         private readonly SignUpService _signUpService;
 
         public SignUpViewModel()
         {
             _signUpService = new SignUpService();
-            NewUser = new User();
         }
 
-        public void CreateNewUser()
+        public async Task<bool> IsUsernameTaken(string username)
         {
-            NewUser.DateJoined = DateTime.Now;
-            _signUpService.RegisterUser(NewUser);
+            return await _signUpService.IsUsernameTaken(username);
+        }
+
+        public async Task<bool> CreateNewUser(User user)
+        {
+            try
+            {
+                user.DateJoined = DateTime.Now;
+                return await _signUpService.RegisterUser(user);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error creating user: {ex.Message}");
+                return false;
+            }
         }
     }
 }

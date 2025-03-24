@@ -185,6 +185,86 @@ namespace Duo.Repositories
         }
 
 
+        public User GetUserStats(int userId)
+        {
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+        new SqlParameter("@UserId", userId)
+            };
+
+            DataTable dataTable = DataLink.ExecuteReader("GetUserStats", parameters);
+
+            if (dataTable.Rows.Count > 0)
+            {
+                DataRow row = dataTable.Rows[0];
+                return new User
+                {
+                    TotalPoints = Convert.ToInt32(row["TotalPoints"]),
+                    Streak = Convert.ToInt32(row["Streak"]),
+                    QuizzesCompleted = Convert.ToInt32(row["QuizzesCompleted"]),
+                    CoursesCompleted = Convert.ToInt32(row["CoursesCompleted"])
+                };
+            }
+
+            return null;
+        }
+
+        public List<Achievement> GetAllAchievements()
+        {
+            DataTable dataTable = DataLink.ExecuteReader("GetAllAchievements");
+
+            List<Achievement> achievements = new List<Achievement>();
+            foreach (DataRow row in dataTable.Rows)
+            {
+                achievements.Add(new Achievement
+                {
+                    Id = Convert.ToInt32(row["Id"]),
+                    Name = row["Name"].ToString()!,
+                    Description = row["Description"].ToString()!,
+                    Rarity = row["Rarity"].ToString()!
+                });
+            }
+
+            return achievements;
+        }
+
+        public List<Achievement> GetUserAchievements(int userId)
+        {
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+            new SqlParameter("@UserId", userId)
+            };
+
+            DataTable dataTable = DataLink.ExecuteReader("GetUserAchievements", parameters);
+
+            List<Achievement> achievements = new List<Achievement>();
+            foreach (DataRow row in dataTable.Rows)
+            {
+                achievements.Add(new Achievement
+                {
+                    Id = Convert.ToInt32(row["AchievementId"]),
+                    Name = row["Name"].ToString()!,
+                    Description = row["Description"].ToString()!,
+                    Rarity = row["Rarity"].ToString()!,
+                    AwardedDate = Convert.ToDateTime(row["AwardedDate"])
+                });
+            }
+
+            return achievements;
+        }
+
+        public void AwardAchievement(int userId, int achievementId)
+        {
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+            new SqlParameter("@UserId", userId),
+            new SqlParameter("@AchievementId", achievementId),
+            new SqlParameter("@AwardedDate", DateTime.Now)
+            };
+
+            DataLink.ExecuteNonQuery("AwardAchievement", parameters);
+        }
+
 
     }
 }

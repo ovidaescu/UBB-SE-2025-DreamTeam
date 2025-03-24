@@ -22,9 +22,9 @@ namespace Duo.ViewModels
         }
 
 
-        public void SaveChanges(string password, bool isPrivate, string newBase64Image)
+        public void SaveChanges(bool isPrivate, string newBase64Image)
         {
-            CurrentUser.Password = password;
+          
 
             // Only update if a new image is provided
             if (!string.IsNullOrWhiteSpace(newBase64Image))
@@ -37,6 +37,10 @@ namespace Duo.ViewModels
             _profileService.UpdateUser(CurrentUser);
         }
 
+        public User GetUserStats()
+        {
+            return _profileService.GetUserStats(CurrentUser.UserId);
+        }
 
     }
 }

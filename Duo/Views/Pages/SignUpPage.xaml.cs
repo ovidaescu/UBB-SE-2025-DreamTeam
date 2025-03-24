@@ -6,13 +6,13 @@ using Duo.Services;
 using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using DuolingoNou.Views;
 
 namespace Duo.Views.Pages
 {
     public sealed partial class SignUpPage : Page
     {
         public SignUpViewModel ViewModel { get; set; }
+        public User NewUser { get; set; } = new User();
 
         public SignUpPage()
         {
@@ -21,18 +21,48 @@ namespace Duo.Views.Pages
             this.DataContext = ViewModel;
         }
 
-        private void OnCreateUserClick(object sender, RoutedEventArgs e)
+        private async void OnCreateUserClick(object sender, RoutedEventArgs e)
         {
-            // Ensure the password from PasswordBox is assigned before sending to DB
-            ViewModel.NewUser.Password = PasswordBoxWithRevealMode.Password;
+            NewUser.UserName = UsernameTextBox.Text;
+            NewUser.Email = EmailTextBox.Text;
+            NewUser.Password = PasswordBoxWithRevealMode.Password;
+            string confirmPassword = ConfirmPasswordBox.Password;
 
-            // Call ViewModel logic
-            ViewModel.CreateNewUser();
+            if (!IsValidUsername(NewUser.UserName))
+            {
+                UsernameValidationTextBlock.Text = "Username must be 5-20 characters and contain only letters, digits, or underscores.";
+                return;
+            }
+            else
+            {
+                UsernameValidationTextBlock.Text = "";
+            }
 
-            // Optionally set the CurrentUser globally if needed
-            Duo.App.CurrentUser = ViewModel.NewUser;
+            if (await IsUsernameTaken(NewUser.UserName))
+            {
+                await ShowDialog("Username Taken", "This username is already in use. Please choose another.");
+                return;
+            }
 
-            // Navigate to app shell
+            string passwordStrength = GetPasswordStrength(NewUser.Password);
+            if (passwordStrength == "Weak")
+            {
+                await ShowDialog("Weak Password", "Password must be at least Medium strength. Include an uppercase letter, a special character, and a digit.");
+                return;
+            }
+
+            if (NewUser.Password != confirmPassword)
+            {
+                ConfirmPasswordValidationTextBlock.Text = "Passwords do not match.";
+                return;
+            }
+            else
+            {
+                ConfirmPasswordValidationTextBlock.Text = "";
+            }
+
+            ViewModel.CreateNewUser(NewUser);
+            await ShowDialog("Account Created", "Your account has been successfully created!");
             Frame.Navigate(typeof(ShellPage));
         }
 
@@ -91,10 +121,8 @@ namespace Duo.Views.Pages
 
         private void RevealModeCheckbox_Changed(object sender, RoutedEventArgs e)
         {
-            PasswordBoxWithRevealMode.PasswordRevealMode =
-                RevealModeCheckBox.IsChecked == true ?
-                PasswordRevealMode.Visible :
-                PasswordRevealMode.Hidden;
+            PasswordBoxWithRevealMode.PasswordRevealMode = RevealModeCheckBox.IsChecked == true ? PasswordRevealMode.Visible : PasswordRevealMode.Hidden;
+            ConfirmPasswordBox.PasswordRevealMode = RevealModeCheckBox.IsChecked == true ? PasswordRevealMode.Visible : PasswordRevealMode.Hidden;
         }
 
         private void NavigateToLoginPage(object sender, RoutedEventArgs e)

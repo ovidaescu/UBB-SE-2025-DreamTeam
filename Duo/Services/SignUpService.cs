@@ -1,6 +1,7 @@
 ﻿using Duo.Models;
 using Duo.Repositories;
 using System;
+using System.Threading.Tasks;
 
 namespace Duo.Services
 {
@@ -13,14 +14,29 @@ namespace Duo.Services
             _userRepository = new UserRepository(App.userRepository.DataLink);
         }
 
-        public bool RegisterUser(User user)
+        public async Task<bool> IsUsernameTaken(string username)
         {
-            if (_userRepository.GetUserByEmail(user.Email) != null)
-                return false; 
+            try
+            {
+                var user = await Task.Run(() => _userRepository.GetUserByUsername(username));
+                return user != null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error checking username: {ex.Message}");
+                return true; // Fail-safe: assume taken if error occurs
+            }
+        }
 
-            if (_userRepository.GetUserByUsername(user.UserName) != null)
-                return false; 
+        public async Task<bool> RegisterUser(User user)
+        {
+            // Check if email exists
+            if (await Task.Run(() => _userRepository.GetUserByEmail(user.Email)) != null)
+                return false;
 
+            // Check if username exists
+            if (await IsUsernameTaken(user.UserName))
+                return false;
 
             _userRepository.CreateUser(user);
             return true;
