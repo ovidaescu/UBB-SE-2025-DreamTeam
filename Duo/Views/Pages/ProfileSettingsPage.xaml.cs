@@ -21,22 +21,41 @@ namespace DuolingoNou.Views.Pages
         {
             this.InitializeComponent();
 
-            // For now, hardcode user until you implement auth session
-            var dummyUser = new User
+            _viewModel = new ProfileViewModel();
+            LoadUserDataIntoUI();
+        }
+
+
+        private async void LoadUserDataIntoUI()
+        {
+            if (_viewModel.CurrentUser != null)
             {
-                UserId = 1,
-                UserName = "Alice",
-                Email = "alice@example.com",
-                DateJoined = DateTime.Now
-            };
+                UsernameInput.Text = _viewModel.CurrentUser.UserName;
+                EmailInput.Text = _viewModel.CurrentUser.Email;
+                PasswordInput.Password = _viewModel.CurrentUser.Password;
+                PublicRadio.IsChecked = !_viewModel.CurrentUser.PrivacyStatus;
+                PrivateRadio.IsChecked = _viewModel.CurrentUser.PrivacyStatus;
 
-            _viewModel = new ProfileViewModel(dummyUser);
+                if (!string.IsNullOrEmpty(_viewModel.CurrentUser.ProfileImage))
+                {
+                    byte[] imageBytes = Convert.FromBase64String(_viewModel.CurrentUser.ProfileImage);
+                    using (var stream = new InMemoryRandomAccessStream())
+                    {
+                        using (var writer = new DataWriter(stream.GetOutputStreamAt(0)))
+                        {
+                            writer.WriteBytes(imageBytes);
+                            await writer.StoreAsync();       
+                            await writer.FlushAsync();       
+                            writer.DetachStream();
+                        }
 
-            UsernameInput.Text = dummyUser.UserName;
-            EmailInput.Text = dummyUser.Email;
-            PasswordInput.Password = dummyUser.Password;
-            PublicRadio.IsChecked = !dummyUser.PrivacyStatus;
-            PrivateRadio.IsChecked = dummyUser.PrivacyStatus;
+                        BitmapImage bitmap = new BitmapImage();
+                        await bitmap.SetSourceAsync(stream); 
+                        ProfileImageBrush.ImageSource = bitmap;
+                    }
+                }
+
+            }
         }
 
         private async void OnProfileImageClick(object sender, RoutedEventArgs e)
@@ -75,7 +94,8 @@ namespace DuolingoNou.Views.Pages
             string password = PasswordInput.Password;
             bool isPrivate = PrivateRadio.IsChecked == true;
 
-            _viewModel.SaveChanges(password, isPrivate, _selectedImagePath);
+            _viewModel.SaveChanges(password, isPrivate, _selectedImageBase64);
+
 
             ContentDialog dialog = new ContentDialog
             {
@@ -101,31 +121,5 @@ namespace DuolingoNou.Views.Pages
             PasswordInput.Visibility = Visibility.Visible;
             VisiblePasswordInput.Visibility = Visibility.Collapsed;
         }
-
-
-        /* private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
-         {
-             if (args.SelectedItem is NavigationViewItem selectedItem)
-             {
-                 var tag = selectedItem.Tag?.ToString()
-
-                 switch (tag)
-                 {
-                     case "CoursesParent":
-                         contentFrame.Navigate(typeof(ProfileSettingsPage)); // Replace with real page
-                         break;
-                     case "QuizParent":
-                         contentFrame.Navigate(typeof(ProfileSettingsPage)); // Replace with real page
-                         break;
-                     case "CommunityParent":
-                         contentFrame.Navigate(typeof(ProfileSettingsPage)); // Replace with real page
-                         break;
-                 }
-             }
-         }*/
-
-
-
     }
-    /*//now when i click on save changes, i want to change the password, avatar image, privacy status into the database, i will give you the other files so that you will change what it's needed: */
-}
+    }

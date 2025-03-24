@@ -1,4 +1,5 @@
-﻿using Duo.Repositories;
+﻿using Duo.Models;
+using Duo.Repositories;
 
 namespace Duo.Services
 {
@@ -14,6 +15,11 @@ namespace Duo.Services
         public bool AuthenticateUser(string username, string password)
         {
             return _userRepository.ValidateCredentials(username, password);
+        }
+
+        public User GetUserByCredentials(string username, string password)
+        {
+            return _userRepository.GetUserByCredentials(username, password);
         }
     }
 }

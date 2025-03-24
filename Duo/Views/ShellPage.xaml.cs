@@ -18,12 +18,13 @@ namespace DuolingoNou.Views
             {
                 switch (selectedItem.Tag)
                 {
-                    case "Profile":
+                    case "Settings":
                         ContentFrame.Navigate(typeof(ProfileSettingsPage));
                         break;
-                    /*case "Courses":
-                        ContentFrame.Navigate(typeof(CoursesPage)); // create this later
+                    case "HomePage":
+                        ContentFrame.Navigate(typeof(MainPage)); // create this later
                         break;
+                        /*
                     case "Quiz":
                         ContentFrame.Navigate(typeof(QuizPage)); // create this later
                         break;*/

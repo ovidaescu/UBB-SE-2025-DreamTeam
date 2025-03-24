@@ -145,5 +145,18 @@ namespace Duo.Repositories
             };
         }
 
+     
+
+        internal User GetUserByCredentials(string username, string password)
+        {
+            var user = GetUserByUsername(username);
+            if (user != null && user.Password == password)
+            {
+                return user;
+            }
+
+            return null; // Either user not found or password doesn't match
+        }
+
     }
 }

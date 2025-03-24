@@ -36,14 +36,18 @@ namespace Duo
             return builder.Build();
         }
 
-        
+
 
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            MainAppWindow = new MainWindow(); // store reference
-            MainAppWindow.Content = new ShellPage();
-            MainAppWindow.Activate();
+            MainAppWindow = new MainWindow(); // Keep this
+            MainAppWindow.Activate();         // Show it
+
+            // MainWindow.xaml contains: <Frame x:Name="MainFrame" />
+            // and the constructor already does:
+            // MainFrame.Navigate(typeof(LoginPage));
         }
+
 
         private Window? m_window;
     }

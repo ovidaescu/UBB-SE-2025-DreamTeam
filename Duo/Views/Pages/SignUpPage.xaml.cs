@@ -17,19 +17,25 @@ namespace DuolingoNou.Views.Pages
 
         private void OnCreateUserClick(object sender, RoutedEventArgs e)
         {
+            // Ensure the password from PasswordBox is assigned before sending to DB
+            ViewModel.NewUser.Password = PasswordBoxWithRevealMode.Password;
+
+            // Call ViewModel logic
             ViewModel.CreateNewUser();
+
+            // Optionally set the CurrentUser globally if needed
+            Duo.App.CurrentUser = ViewModel.NewUser;
+
+            // Navigate to app shell
+            Frame.Navigate(typeof(ShellPage));
         }
 
         private void RevealModeCheckbox_Changed(object sender, RoutedEventArgs e)
         {
-            if (RevealModeCheckBox.IsChecked == true)
-            {
-                PasswordBoxWithRevealMode.PasswordRevealMode = PasswordRevealMode.Visible;
-            }
-            else
-            {
-                PasswordBoxWithRevealMode.PasswordRevealMode = PasswordRevealMode.Hidden;
-            }
+            PasswordBoxWithRevealMode.PasswordRevealMode =
+                RevealModeCheckBox.IsChecked == true ?
+                PasswordRevealMode.Visible :
+                PasswordRevealMode.Hidden;
         }
 
         private void NavigateToLoginPage(object sender, RoutedEventArgs e)

@@ -1,5 +1,5 @@
 ﻿using Duo.Services;
-using Microsoft.UI.Xaml;
+using Duo.Models;
 
 namespace Duo.ViewModels
 {
@@ -11,6 +11,8 @@ namespace Duo.ViewModels
         public string Password { get; set; } = string.Empty;
         public bool LoginStatus { get; private set; }
 
+        public User LoggedInUser { get; private set; }  // <-- Add this
+
         public LoginViewModel()
         {
             _loginService = new LoginService();
@@ -20,8 +22,11 @@ namespace Duo.ViewModels
         {
             Username = username;
             Password = password;
-            LoginStatus = _loginService.AuthenticateUser(Username, Password);
-        }
 
+            // Try to get the user (instead of just bool result)
+            LoggedInUser = _loginService.GetUserByCredentials(Username, Password);
+
+            LoginStatus = LoggedInUser != null;
+        }
     }
 }

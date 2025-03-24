@@ -1,3 +1,4 @@
+using Duo;
 using Duo.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -40,8 +41,10 @@ namespace DuolingoNou.Views.Pages
             ViewModel.AttemptLogin(username,password);
             if (ViewModel.LoginStatus)
             {
+                App.CurrentUser = ViewModel.LoggedInUser;
                 LoginStatusMessage.Text = "You have successfully logged in!";
                 LoginStatusMessage.Visibility = Visibility.Visible;
+                Frame.Navigate(typeof(ShellPage));
             }
             else
             {
