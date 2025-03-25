@@ -1,5 +1,6 @@
 ﻿using Duo.Models;
 using Duo.Repositories;
+using Duo.ViewModels;
 using System.Collections.Generic;
 
 namespace Duo.Services;
@@ -15,7 +16,7 @@ class LeaderboardService
         _friendsRepository = new FriendsRepository(App.friendsRepository.DataLink);
     }
 
-    public List<User> GetGlobalLeaderboard(string criteria)
+    public List<LeaderboardEntry> GetGlobalLeaderboard(string criteria)
     {
         //return the first 10 users in the repo sorted by completed quizzes
         if (criteria == "CompletedQuizzes")
@@ -32,7 +33,7 @@ class LeaderboardService
             throw new System.Exception("Invalid criteria");
         }
     }
-    public List<User> GetFriendsLeaderboard(int userId, string criteria)
+    public List<LeaderboardEntry> GetFriendsLeaderboard(int userId, string criteria)
     {
         //return the first 10 users in the repo sorted by completed quizzes
         if (criteria == "CompletedQuizzes")

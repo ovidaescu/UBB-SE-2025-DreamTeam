@@ -2,6 +2,7 @@
 
 public class LeaderboardEntry
 {
+    public int UserId { get; set; }
     public int Rank { get; set; }
     public string ProfilePicture { get; set; }
     public string Username { get; set; }

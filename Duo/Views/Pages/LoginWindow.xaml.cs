@@ -1,6 +1,7 @@
 using Duo;
 using Duo.ViewModels;
 using DuolingoNou.Views;
+using DuolingoNou.Views.Pages;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;

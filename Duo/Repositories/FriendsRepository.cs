@@ -1,6 +1,7 @@
 ﻿using Duo.Data;
 using Duo.Helpers;
 using Duo.Models;
+using Duo.ViewModels;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,7 @@ public class FriendsRepository
         DataLink.ExecuteNonQuery("AddFriend", parameters);
     }
 
-    public List<User> GetTopFriendsByCompletedQuizzes(int userId)
+    public List<LeaderboardEntry> GetTopFriendsByCompletedQuizzes(int userId)
     {
         SqlParameter[] parameter = new SqlParameter[]
             {
@@ -38,25 +39,45 @@ public class FriendsRepository
             };
 
         var DataTable = DataLink.ExecuteReader("GetTopFriendsByCompletedQuizzes", parameter);
-        List<User> users = new List<User>();
+        List<LeaderboardEntry> users = new List<LeaderboardEntry>();
+        int index = 1;
         foreach (DataRow row in DataTable.Rows)
         {
-            users.Add(Mappers.MapUser(row));
+
+            users.Add(new LeaderboardEntry()
+            {
+                Rank = index++,
+                UserId = Convert.ToInt32(row["UserId"]),
+                Username = row["UserName"].ToString()!,
+                CompletedQuizzes = Convert.ToInt32(row["QuizzesCompleted"]),
+                Accuracy = Convert.ToDecimal(row["Accuracy"]),
+                ProfilePicture = row["ProfileImage"].ToString()!
+            });
         }
 
         return users;
     }
-    public List<User> GetTopFriendsByAccuracy(int userId)
+    public List<LeaderboardEntry> GetTopFriendsByAccuracy(int userId)
     {
         SqlParameter[] parameter = new SqlParameter[]
         {
                 new SqlParameter("@UserId", userId)
             };
         var DataTable = DataLink.ExecuteReader("GetTopFriendsByAccuracy", parameter);
-        List<User> users = new List<User>();
+        List<LeaderboardEntry> users = new List<LeaderboardEntry>();
+        int index = 1;
         foreach (DataRow row in DataTable.Rows)
         {
-            users.Add(Mappers.MapUser(row));
+
+            users.Add(new LeaderboardEntry()
+            {
+                Rank = index++,
+                UserId = Convert.ToInt32(row["UserId"]),
+                Username = row["UserName"].ToString()!,
+                CompletedQuizzes = Convert.ToInt32(row["QuizzesCompleted"]),
+                Accuracy = Convert.ToDecimal(row["Accuracy"]),
+                ProfilePicture = row["ProfileImage"].ToString()!
+            });
         }
 
         return users;

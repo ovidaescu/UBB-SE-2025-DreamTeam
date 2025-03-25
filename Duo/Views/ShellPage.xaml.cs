@@ -25,7 +25,9 @@ namespace DuolingoNou.Views
                     case "HomePage":
                         ContentFrame.Navigate(typeof(MainPage)); // create this later
                         break;
-                        
+                    case "Leaderboards":
+                        ContentFrame.Navigate(typeof(LeaderboardPage)); // create this later
+                        break;
                     case "Stats":
                         ContentFrame.Navigate(typeof(AchievementsPage)); // create this later
                         break;

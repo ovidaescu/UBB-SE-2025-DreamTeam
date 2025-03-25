@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System;
 using Duo.Helpers;
 using DuolingoNou.Models;
+using Duo.ViewModels;
 
 namespace Duo.Repositories
 {
@@ -152,28 +153,48 @@ namespace Duo.Repositories
             };
         }
 
-        public List<User> GetTopUsersByCompletedQuizzes()
+        public List<LeaderboardEntry> GetTopUsersByCompletedQuizzes()
         {
             var DataTable = DataLink.ExecuteReader("GetTopUsersByCompletedQuizzes");
-            List<User> users = new List<User>();
+            List<LeaderboardEntry> users = new List<LeaderboardEntry>();
+            int index = 1;
             foreach (DataRow row in DataTable.Rows)
             {
-                users.Add(Mappers.MapUser(row));
+
+                users.Add( new LeaderboardEntry()
+                {
+                    Rank = index++,
+                    UserId = Convert.ToInt32(row["UserId"]),
+                    Username = row["UserName"].ToString()!,
+                    CompletedQuizzes = Convert.ToInt32(row["QuizzesCompleted"]),
+                    Accuracy = Convert.ToDecimal(row["Accuracy"]),
+                    ProfilePicture = row["ProfileImage"].ToString()!
+                });
             }
 
             return users;
         }
 
-        public List<User> GetTopUsersByAccuracy()
+        public List<LeaderboardEntry> GetTopUsersByAccuracy()
         {
             var DataTable = DataLink.ExecuteReader("GetTopUsersByAccuracy");
-            List<User> users = new List<User>();
+            List<LeaderboardEntry> users = new List<LeaderboardEntry>();
+            int index = 1;
             foreach (DataRow row in DataTable.Rows)
             {
-                users.Add(Mappers.MapUser(row));
+                users.Add(new LeaderboardEntry()
+                {
+                    Rank = index++,
+                    UserId = Convert.ToInt32(row["UserId"]),
+                    Username = row["UserName"].ToString()!,
+                    CompletedQuizzes = Convert.ToInt32(row["QuizzesCompleted"]),
+                    Accuracy = Convert.ToDecimal(row["Accuracy"]),
+                    ProfilePicture = row["ProfileImage"].ToString()!
+                });
             }
             return users;
         }
+
         internal User GetUserByCredentials(string username, string password)
         {
             var user = GetUserByUsername(username);
@@ -264,6 +285,9 @@ namespace Duo.Repositories
 
             DataLink.ExecuteNonQuery("AwardAchievement", parameters);
         }
+
+
+        
 
 
     }
