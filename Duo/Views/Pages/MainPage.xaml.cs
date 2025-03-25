@@ -1,12 +1,10 @@
-using Duo.Services;
-using Duo;
+using Duo.Repositories;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
@@ -16,60 +14,54 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Duo.Models;
+using Duo;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace DuolingoNou.Views.Pages
 {
-
+    /// <summary>
+    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// </summary>
     public sealed partial class MainPage : Page
     {
-        private readonly ProfileService _profileService;
+
+        private readonly UserRepository _userRepository;
+        private List<User> _users;
+        private List<User> _suggestedFriends;
 
         public MainPage()
         {
             this.InitializeComponent();
-            _profileService = new ProfileService();
-            LoadUserDetails();
+            _userRepository = App.userRepository;
+            LoadUsers();
+            GetFriendSuggestions();
         }
 
-        private void LoadUserDetails()
+        private void LoadUsers()
         {
-            User currentUser = _profileService.GetUserStats(App.CurrentUser.UserId);
+            _users = _userRepository.GetAllUsers();
+        }
 
-            if (currentUser != null)
+        private void GetFriendSuggestions()
+        {
+            int currentUserId = _users.First().UserId;
+            var userFriends = _userRepository.GetUserFriends(currentUserId);
+
+            _suggestedFriends = new List<User>();
+
+            foreach (var friend in userFriends)
             {
-                UsernameText.Text = currentUser.UserName;
-                FriendCountText.Text = $"18 friends";
-                // ProfileImageBrush.ImageSource = new BitmapImage(new Uri(currentUser.ProfileImage));
+                var mutualFriends = _userRepository.GetUserFriends(friend.UserId)
+                    .Where(f => f.UserId != currentUserId && !userFriends.Contains(f)) // exclude current user and already added friends
+                    .ToList();
 
-                // Update statistics
-                DayStreakText.Text = currentUser.Streak.ToString();
-                TotalXPText.Text = currentUser.TotalPoints.ToString();
-                QuizzesCompletedText.Text = currentUser.QuizzesCompleted.ToString();
-                CoursesCompletedText.Text = currentUser.CoursesCompleted.ToString();
-
-                // Award achievements
-                _profileService.AwardAchievements(currentUser);
-                System.Diagnostics.Debug.WriteLine("AwardAchievements called");
-
+                _suggestedFriends.AddRange(mutualFriends);
             }
-        }
 
-        private void OnProfileImageClick(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(ProfileSettingsPage));
-        }
-
-        private void OnUpdateProfileClick(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(ProfileSettingsPage));
-        }
-
-        private void OnViewAllClick(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(AchievementsPage));
+            _suggestedFriends = _suggestedFriends.Distinct().ToList();
+            SuggestedFriendsGridView.ItemsSource = _suggestedFriends;
         }
     }
 }
