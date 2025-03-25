@@ -1,14 +1,32 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml;
 using DuolingoNou.Views.Pages;
+using Duo.Repositories;
+using System.Collections.Generic;
+using Duo.Models;
+using Duo.Data;
+using System.Linq;
+using Duo;
+using Windows.Networking.NetworkOperators;
+using Microsoft.UI.Xaml.Media.Imaging;
+using System;
+using Windows.Storage.Streams;
+using Duo.ViewModels;
+using System.IO;
 
 namespace DuolingoNou.Views
 {
     public sealed partial class ShellPage : Page
     {
+        private readonly UserRepository _userRepository;
+        private List<User> _users;
+
         public ShellPage()
         {
             this.InitializeComponent();
+            _userRepository = App.userRepository; 
+            LoadUsers();
+            
             ContentFrame.Navigate(typeof(ProfileSettingsPage)); // Default page
         }
 
@@ -24,44 +42,46 @@ namespace DuolingoNou.Views
                     case "HomePage":
                         ContentFrame.Navigate(typeof(MainPage)); // create this later
                         break;
-                        
-                    case "Stats":
-                        ContentFrame.Navigate(typeof(AchievementsPage)); // create this later
-                        break;
+                        /*
+                    case "Quiz":
+                        ContentFrame.Navigate(typeof(QuizPage)); // create this later
+                        break;*/
                 }
             }
         }
 
+        private void LoadUsers()
+        {
+            _users = _userRepository.GetAllUsers();
+            
+        }
+
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-            string query = SearchBox.Text?.Trim();
+            string query = SearchBox.Text?.Trim().ToLower();
 
             if (!string.IsNullOrEmpty(query))
             {
-                // TODO: Implement navigation or search filtering logic
-                ContentDialog dialog = new ContentDialog
-                {
-                    Title = "Search Triggered",
-                    Content = $"You searched for: {query}",
-                    CloseButtonText = "OK",
-                    XamlRoot = this.XamlRoot
-                };
+                var results = _users.Where(user => user.UserName.ToLower().Contains(query) ||
+                                                   user.Email.ToLower().Contains(query)).ToList();
 
-                _ = dialog.ShowAsync();
+                SearchResultsList.ItemsSource = results;
+                SearchResultsList.Visibility = results.Any() ? Visibility.Visible : Visibility.Collapsed;
             }
             else
             {
-                ContentDialog dialog = new ContentDialog
-                {
-                    Title = "Empty Search",
-                    Content = "Please enter a search term.",
-                    CloseButtonText = "OK",
-                    XamlRoot = this.XamlRoot
-                };
-
-                _ = dialog.ShowAsync();
+                SearchResultsList.Visibility = Visibility.Collapsed;
             }
         }
 
+        
+
+        private void AddFriendButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.DataContext is User selectedUser)
+            {
+                // friend request
+            }
+        }
     }
 }
