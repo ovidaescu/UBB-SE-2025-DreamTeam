@@ -5,6 +5,7 @@ using Duo.Data;
 using System.Collections.Generic;
 using System;
 using Duo.Helpers;
+using DuolingoNou.Models;
 
 namespace Duo.Repositories
 {
@@ -130,6 +131,27 @@ namespace Duo.Repositories
             return user != null && user.Password == password;
         }
 
+        private User MapUser(DataRow row)
+        {
+            return new User
+            {
+                UserId = Convert.ToInt32(row["UserId"]),
+                UserName = row["UserName"].ToString()!,
+                Email = row["Email"].ToString()!,
+                PrivacyStatus = Convert.ToBoolean(row["PrivacyStatus"]),
+                OnlineStatus = Convert.ToBoolean(row["OnlineStatus"]),
+                DateJoined = Convert.ToDateTime(row["DateJoined"]),
+                ProfileImage = row["ProfileImage"].ToString()!,
+                TotalPoints = Convert.ToInt32(row["TotalPoints"]),
+                CoursesCompleted = Convert.ToInt32(row["CoursesCompleted"]),
+                QuizzesCompleted = Convert.ToInt32(row["QuizzesCompleted"]),
+                Streak = Convert.ToInt32(row["Streak"]),
+                Password = row["Password"].ToString()!,
+                Accuracy = Convert.ToDecimal(row["Accuracy"])
+
+            };
+        }
+
         public List<User> GetTopUsersByCompletedQuizzes()
         {
             var DataTable = DataLink.ExecuteReader("GetTopUsersByCompletedQuizzes");
@@ -152,7 +174,6 @@ namespace Duo.Repositories
             }
             return users;
         }
-
         internal User GetUserByCredentials(string username, string password)
         {
             var user = GetUserByUsername(username);
