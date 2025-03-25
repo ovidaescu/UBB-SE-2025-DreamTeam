@@ -14,7 +14,6 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Duo.Models;
 using System.Collections.ObjectModel;
-using Duo.ViewModels;
 using Duo.Data;
 using Duo.Helpers;
 using System.Data;

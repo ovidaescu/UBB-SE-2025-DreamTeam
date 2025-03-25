@@ -1,4 +1,4 @@
-﻿namespace Duo.ViewModels;
+﻿namespace Duo.Models;
 
 public class LeaderboardEntry
 {

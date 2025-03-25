@@ -1,6 +1,5 @@
 ﻿using Duo.Models;
 using Duo.Repositories;
-using Duo.ViewModels;
 using System.Collections.Generic;
 
 namespace Duo.Services;

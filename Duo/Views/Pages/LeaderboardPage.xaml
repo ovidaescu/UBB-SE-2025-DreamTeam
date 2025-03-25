@@ -105,7 +105,7 @@
                 </Grid>
             </ListView.Header>
             <ListView.ItemTemplate>
-                <DataTemplate x:DataType="local:LeaderboardEntry">
+                <DataTemplate x:DataType="data:LeaderboardEntry">
                     <Grid Padding="5">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50" />
@@ -126,7 +126,7 @@
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                                 <!-- Profile Picture -->
                                 <Border Width="30" Height="30" BorderBrush="Gray" BorderThickness="1" Margin="5" CornerRadius="15">
-                                    <Image Source="{x:Bind ProfilePicture}" Stretch="UniformToFill" VerticalAlignment="Center"/>
+                                    <Image Source="../../Assets/default.png" Stretch="UniformToFill" VerticalAlignment="Center"/>
                                 </Border>
                                 <!-- Username Text -->
                                 <TextBlock Text="{x:Bind Username}" VerticalAlignment="Center" Margin="10,0,0,0"/>

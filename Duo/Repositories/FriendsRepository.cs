@@ -1,7 +1,6 @@
 ﻿using Duo.Data;
 using Duo.Helpers;
 using Duo.Models;
-using Duo.ViewModels;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
@@ -51,7 +50,7 @@ public class FriendsRepository
                 Username = row["UserName"].ToString()!,
                 CompletedQuizzes = Convert.ToInt32(row["QuizzesCompleted"]),
                 Accuracy = Convert.ToDecimal(row["Accuracy"]),
-                ProfilePicture = row["ProfileImage"].ToString()!
+                ProfilePicture = "../../Assets/" + row["ProfileImage"].ToString()!
             });
         }
 
@@ -76,7 +75,7 @@ public class FriendsRepository
                 Username = row["UserName"].ToString()!,
                 CompletedQuizzes = Convert.ToInt32(row["QuizzesCompleted"]),
                 Accuracy = Convert.ToDecimal(row["Accuracy"]),
-                ProfilePicture = row["ProfileImage"].ToString()!
+                ProfilePicture = "../../Assets/" + row["ProfileImage"].ToString()!
             });
         }
 

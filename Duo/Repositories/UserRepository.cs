@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System;
 using Duo.Helpers;
 using DuolingoNou.Models;
-using Duo.ViewModels;
 
 namespace Duo.Repositories
 {
@@ -91,7 +90,7 @@ namespace Duo.Repositories
                 new SqlParameter("@PrivacyStatus", user.PrivacyStatus),
                 new SqlParameter("@OnlineStatus", user.OnlineStatus),
                 new SqlParameter("@DateJoined", user.DateJoined),
-                new SqlParameter("@ProfileImage", user.ProfileImage ?? ""),
+                new SqlParameter("@ProfileImage", user.ProfileImage ?? "default.jpg"),
                 new SqlParameter("@TotalPoints", user.TotalPoints),
                 new SqlParameter("@CoursesCompleted", user.CoursesCompleted),
                 new SqlParameter("@QuizzesCompleted", user.QuizzesCompleted),
@@ -101,7 +100,6 @@ namespace Duo.Repositories
             };
             DataLink.ExecuteNonQuery("CreateUser", parameters);
         }
-
 
         public void UpdateUser(User user)
         {
@@ -168,7 +166,7 @@ namespace Duo.Repositories
                     Username = row["UserName"].ToString()!,
                     CompletedQuizzes = Convert.ToInt32(row["QuizzesCompleted"]),
                     Accuracy = Convert.ToDecimal(row["Accuracy"]),
-                    ProfilePicture = row["ProfileImage"].ToString()!
+                    ProfilePicture = ".. / .. / Assets /" + row["ProfileImage"].ToString()!
                 });
             }
 
@@ -189,7 +187,7 @@ namespace Duo.Repositories
                     Username = row["UserName"].ToString()!,
                     CompletedQuizzes = Convert.ToInt32(row["QuizzesCompleted"]),
                     Accuracy = Convert.ToDecimal(row["Accuracy"]),
-                    ProfilePicture = row["ProfileImage"].ToString()!
+                    ProfilePicture = ".. / .. / Assets /" + row["ProfileImage"].ToString()!
                 });
             }
             return users;

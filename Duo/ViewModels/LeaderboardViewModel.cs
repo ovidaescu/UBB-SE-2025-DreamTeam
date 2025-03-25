@@ -1,6 +1,5 @@
 ﻿using Duo.Models;
 using Duo.Services;
-using Duo.ViewModels;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
