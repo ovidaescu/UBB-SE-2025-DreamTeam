@@ -1,10 +1,10 @@
-﻿using System.Data;
+using System.Data;
 using Microsoft.Data.SqlClient;
 using Duo.Models;
 using Duo.Data;
 using System;
-using DuolingoNou.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Duo.Repositories
 {
@@ -160,87 +160,89 @@ namespace Duo.Repositories
             return null; // Either user not found or password doesn't match
         }
 
+        public List<User> GetAllUsers()
+        {
+            var users = new List<User>();
 
-        public User GetUserStats(int userId)
+            try
+            {
+                DataTable dataTable = DataLink.ExecuteReader("GetAllUsers", null);
+
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    users.Add(MapUser(row));
+                }
+
+                return users;
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception($"Database error: {ex.Message}");
+            }
+
+        }
+
+        public List<User> GetUserFriends(int userId)
+        {
+            if (userId <= 0)
+            {
+                throw new ArgumentException("Invalid user ID.");
+            }
+
+            List<User> friends = new List<User>();
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@UserId", userId)
+            };
+
+            try
+            {
+                DataTable dataTable = DataLink.ExecuteReader("GetUserFriends", parameters);
+
+                foreach (DataRow row in dataTable.Rows)
+                {  
+                    int friendId = Convert.ToInt32(row["UserId1"]) == userId
+                        ? Convert.ToInt32(row["UserId2"])
+                        : Convert.ToInt32(row["UserId1"]);
+
+                    User friend = GetUserById(friendId);
+
+                    if (friend != null)
+                    {
+                        friends.Add(friend);
+                    }
+                }
+                return friends;
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception($"Database error: {ex.Message}");
+            }
+        }
+
+        private User GetUserById(int userId)
         {
             SqlParameter[] parameters = new SqlParameter[]
             {
-        new SqlParameter("@UserId", userId)
+                new SqlParameter("@UserId", userId)
             };
 
-            DataTable dataTable = DataLink.ExecuteReader("GetUserStats", parameters);
-
-            if (dataTable.Rows.Count > 0)
+            try
             {
-                DataRow row = dataTable.Rows[0];
-                return new User
+                DataTable? dataTable = DataLink.ExecuteReader("GetUserById", parameters);
+                if (dataTable.Rows.Count == 0)
                 {
-                    TotalPoints = Convert.ToInt32(row["TotalPoints"]),
-                    Streak = Convert.ToInt32(row["Streak"]),
-                    QuizzesCompleted = Convert.ToInt32(row["QuizzesCompleted"]),
-                    CoursesCompleted = Convert.ToInt32(row["CoursesCompleted"])
-                };
+                    return null;
+                }
+
+                var row = dataTable.Rows[0];
+                return MapUser(row); 
             }
-
-            return null;
-        }
-
-        public List<Achievement> GetAllAchievements()
-        {
-            DataTable dataTable = DataLink.ExecuteReader("GetAllAchievements");
-
-            List<Achievement> achievements = new List<Achievement>();
-            foreach (DataRow row in dataTable.Rows)
+            catch (SqlException ex)
             {
-                achievements.Add(new Achievement
-                {
-                    Id = Convert.ToInt32(row["Id"]),
-                    Name = row["Name"].ToString()!,
-                    Description = row["Description"].ToString()!,
-                    Rarity = row["Rarity"].ToString()!
-                });
+                throw new Exception($"Database error: {ex.Message}");
             }
-
-            return achievements;
         }
-
-        public List<Achievement> GetUserAchievements(int userId)
-        {
-            SqlParameter[] parameters = new SqlParameter[]
-            {
-            new SqlParameter("@UserId", userId)
-            };
-
-            DataTable dataTable = DataLink.ExecuteReader("GetUserAchievements", parameters);
-
-            List<Achievement> achievements = new List<Achievement>();
-            foreach (DataRow row in dataTable.Rows)
-            {
-                achievements.Add(new Achievement
-                {
-                    Id = Convert.ToInt32(row["AchievementId"]),
-                    Name = row["Name"].ToString()!,
-                    Description = row["Description"].ToString()!,
-                    Rarity = row["Rarity"].ToString()!,
-                    AwardedDate = Convert.ToDateTime(row["AwardedDate"])
-                });
-            }
-
-            return achievements;
-        }
-
-        public void AwardAchievement(int userId, int achievementId)
-        {
-            SqlParameter[] parameters = new SqlParameter[]
-            {
-            new SqlParameter("@UserId", userId),
-            new SqlParameter("@AchievementId", achievementId),
-            new SqlParameter("@AwardedDate", DateTime.Now)
-            };
-
-            DataLink.ExecuteNonQuery("AwardAchievement", parameters);
-        }
-
 
     }
 }
