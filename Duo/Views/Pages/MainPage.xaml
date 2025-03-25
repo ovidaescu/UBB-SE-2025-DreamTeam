@@ -9,149 +9,30 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid Padding="20">
-        <StackPanel Spacing="20">
-
-            <!-- Header Section -->
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-
-                <!-- Profile Image + Username + Friend Count -->
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="20">
-                    <Grid Width="100" Height="100" Tapped="OnProfileImageClick">
-                        <Ellipse Fill="Gray"/>
-                        <Ellipse>
+    <Grid>
+        <GridView x:Name="SuggestedFriendsGridView" 
+                  HorizontalAlignment="Right" 
+                  VerticalAlignment="Bottom" 
+                  Width="300" 
+                  Height="200" 
+                  Background="White"
+                  BorderBrush="Black"
+                  BorderThickness="2"
+                  Margin="10,10,35,35">
+            <GridView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Padding="5">
+                        <!-- Profile Image -->
+                        <Ellipse Width="30" Height="30" VerticalAlignment="Center">
                             <Ellipse.Fill>
-                                <ImageBrush x:Name="ProfileImageBrush" Stretch="UniformToFill"/>
+                                <ImageBrush ImageSource="{Binding ProfileImage}" Stretch="UniformToFill"/>
                             </Ellipse.Fill>
                         </Ellipse>
-                    </Grid>
-
-                    <StackPanel>
-                        <TextBlock x:Name="UsernameText" Text="Cute_Doggo" FontSize="20" FontWeight="Bold"/>
-                        <TextBlock x:Name="FriendCountText" Text="24 friends" FontSize="14"/>
+                        <!-- User Name -->
+                        <TextBlock Text="{Binding UserName}" VerticalAlignment="Center" Width="270"/>
                     </StackPanel>
-                </StackPanel>
-
-                <!-- Update Profile Button -->
-                <Button Grid.Column="2" Content="✎ Update Profile" 
-                        Background="#800040" Foreground="White"
-                        Padding="10,5" FontSize="14" Click="OnUpdateProfileClick"/>
-            </Grid>
-
-            <!-- Separator -->
-            <Border Height="2" Background="#800040" Margin="0,10,0,0"/>
-
-            <!-- Main Content (Statistics + Achievements + Friends List) -->
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
-
-                <!-- Left Column: Statistics & Achievements -->
-                <StackPanel Grid.Column="0" Spacing="20">
-
-                    <!-- Statistics Section -->
-                    <TextBlock Text="Statistics" FontSize="18" FontWeight="Bold"/>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-
-                        <Border Grid.Row="0" Grid.Column="0" BorderThickness="2" BorderBrush="LightGray" Padding="10" Margin="5">
-                            <StackPanel>
-                                <TextBlock x:Name="DayStreakText" Text="295" FontSize="18" FontWeight="Bold"/>
-                                <TextBlock Text="Day Streak" FontSize="14"/>
-                            </StackPanel>
-                        </Border>
-
-                        <Border Grid.Row="0" Grid.Column="1" BorderThickness="2" BorderBrush="LightGray" Padding="10" Margin="5">
-                            <StackPanel>
-                                <TextBlock x:Name="TotalXPText" Text="212026" FontSize="18" FontWeight="Bold"/>
-                                <TextBlock Text="Total XP" FontSize="14"/>
-                            </StackPanel>
-                        </Border>
-
-                        <Border Grid.Row="1" Grid.Column="0" BorderThickness="2" BorderBrush="LightGray" Padding="10" Margin="5">
-                            <StackPanel>
-                                <TextBlock x:Name="QuizzesCompletedText" Text="10" FontSize="18" FontWeight="Bold"/>
-                                <TextBlock Text="Quizzes Completed" FontSize="14"/>
-                            </StackPanel>
-                        </Border>
-
-                        <Border Grid.Row="1" Grid.Column="1" BorderThickness="2" BorderBrush="LightGray" Padding="10" Margin="5">
-                            <StackPanel>
-                                <TextBlock x:Name="CoursesCompletedText" Text="5" FontSize="18" FontWeight="Bold"/>
-                                <TextBlock Text="Courses Completed" FontSize="14"/>
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-
-                    <!-- Achievements Section -->
-                    <TextBlock Text="Achievements" FontSize="18" FontWeight="Bold"/>
-                    <Border BorderThickness="2" BorderBrush="LightGray" Padding="10" Margin="5">
-                        <StackPanel>
-                            <TextBlock Text="🔥 Wildfire" FontSize="16" FontWeight="Bold"/>
-                            <ProgressBar Value="295" Maximum="365" Height="10"/>
-                            <TextBlock Text="Reach a 365 day streak" FontSize="14"/>
-                        </StackPanel>
-                    </Border>
-
-                    <Border BorderThickness="2" BorderBrush="LightGray" Padding="10" Margin="5">
-                        <StackPanel>
-                            <TextBlock Text="📚 Sage" FontSize="16" FontWeight="Bold"/>
-                            <TextBlock Text="You earned 30,000 XP" FontSize="14"/>
-                        </StackPanel>
-                    </Border>
-
-                    <Border BorderThickness="2" BorderBrush="LightGray" Padding="10" Margin="5">
-                        <StackPanel>
-                            <TextBlock Text="🎓 Scholar" FontSize="16" FontWeight="Bold"/>
-                            <TextBlock Text="You learned 2,000 new words in a single course" FontSize="14"/>
-                        </StackPanel>
-                    </Border>
-
-                    <Button Content="View all" Background="White" BorderThickness="1" Padding="5,2" Click="OnViewAllClick"/>
-                </StackPanel>
-
-                <!-- Right Column: Friends List -->
-                <StackPanel Grid.Column="1" Spacing="10" Padding="10">
-                    <TextBlock Text="Friends" FontSize="18" FontWeight="Bold"/>
-
-                    <StackPanel Orientation="Horizontal" Spacing="10">
-                        <Ellipse Width="40" Height="40" Fill="Gray"/>
-                        <TextBlock Text="Gusti07" FontSize="14"/>
-                    </StackPanel>
-
-                    <StackPanel Orientation="Horizontal" Spacing="10">
-                        <Ellipse Width="40" Height="40" Fill="Gray"/>
-                        <TextBlock Text="VindGolf" FontSize="14"/>
-                    </StackPanel>
-
-                    <StackPanel Orientation="Horizontal" Spacing="10">
-                        <Ellipse Width="40" Height="40" Fill="Gray"/>
-                        <TextBlock Text="Vancea_U" FontSize="14"/>
-                    </StackPanel>
-
-                    <TextBlock Text="Suggestions" FontSize="18" FontWeight="Bold" Margin="10,20,0,0"/>
-
-                    <StackPanel Orientation="Horizontal" Spacing="10">
-                        <Ellipse Width="40" Height="40" Fill="Gray"/>
-                        <TextBlock Text="Messi ⚽" FontSize="14"/>
-                    </StackPanel>
-                </StackPanel>
-            </Grid>
-
-        </StackPanel>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
     </Grid>
 </Page>
