@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="DuolingoNou.Views.Pages.StatsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DuolingoNou.Views.Pages"
+    xmlns:models="using:DuolingoNou.Models"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ScrollViewer>
+        <Grid Padding="30">
+
+            <StackPanel Spacing="20">
+
+                <!-- Streaks (Quiz Streak and Course Streak) -->
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Spacing="20">
+                    <StackPanel Width="165" Padding="10">
+                        <TextBlock Text="Quiz Streak" FontWeight="Bold" FontSize="16"/>
+                        <TextBlock x:Name="QuizStreakText" Text="0 🔥" FontSize="20" HorizontalAlignment="Left"/>
+                    </StackPanel>
+
+                    <StackPanel Width="165" Padding="10">
+                        <TextBlock Text="Completed quizzes" FontWeight="Bold" FontSize="16"/>
+                        <TextBlock x:Name="CompletedQuizText" Text="3" FontSize="20" HorizontalAlignment="Left"/>
+                    </StackPanel>
+
+                    <!-- XP for Quiz-->
+                    <StackPanel Width="165" Padding="10">
+                        <TextBlock Text="Quiz XP" FontWeight="Bold" FontSize="16"/>
+                        <TextBlock x:Name="TotalQuizXPText" Text="500" FontSize="20" HorizontalAlignment="Left"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Course Complete and Streaks -->
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Spacing="20" Margin="0,20">
+
+                    <StackPanel Width="165" Padding="10">
+                        <TextBlock Text="Course Streak" FontWeight="Bold" FontSize="16"/>
+                        <TextBlock x:Name="CourseStreakText" Text="0 🔥" FontSize="20" HorizontalAlignment="Left"/>
+                    </StackPanel>
+
+                    <StackPanel Width="165" Padding="10">
+                        <TextBlock Text="Completed Courses" FontWeight="Bold" FontSize="16"/>
+                        <TextBlock x:Name="CompletedCourseText" Text="3" FontSize="20" HorizontalAlignment="Left"/>
+                    </StackPanel>
+
+                    <!-- Course XP -->
+                    <StackPanel Width="165" Padding="10">
+                        <TextBlock Text="Course XP" FontWeight="Bold" FontSize="16"/>
+                        <TextBlock x:Name="TotalCourseXPText" Text="0" FontSize="20" HorizontalAlignment="Left"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Separation Bar between Quiz and Course Achievements -->
+                <Border BorderBrush="Gray" BorderThickness="0,1,0,0" Margin="0,20"/>
+
+                <!-- Quiz Achievements -->
+                <TextBlock Text="Quiz Achievements" FontWeight="Bold" FontSize="18" HorizontalAlignment="Left" Margin="0,10"/>
+                <ListBox x:Name="QuizListBox" Tapped="OnAchievementTapped">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate x:DataType="models:Achievement">
+                            <StackPanel>
+                                <TextBlock Text="{Binding Title}" />
+                                <TextBlock Text="{Binding Progress}" />
+                                <TextBlock Text="{Binding CompletionStatus}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <!-- Separation Bar between Quiz and Course Achievements -->
+                <Border BorderBrush="Gray" BorderThickness="0,1,0,0" Margin="0,20"/>
+
+                <!-- Course Achievements -->
+                <TextBlock Text="Course Achievements" FontWeight="Bold" FontSize="18" HorizontalAlignment="Left" Margin="0,10"/>
+                <ListBox x:Name="CourseListBox" Tapped="OnAchievementTapped">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate x:DataType="models:Achievement">
+                            <StackPanel>
+                                <TextBlock Text="{Binding Title}" />
+                                <TextBlock Text="{Binding Progress}" />
+                                <TextBlock Text="{Binding CompletionStatus}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</Page>
