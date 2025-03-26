@@ -1,10 +1,13 @@
-﻿CREATE OR ALTER PROCEDURE GetUserStats
+CREATE OR ALTER PROCEDURE GetUserStats
     @UserId INT
 AS
 BEGIN
     SET NOCOUNT ON;
 
-    SELECT 
+    SELECT
+		UserId,
+		UserName,
+		ProfileImage,
         TotalPoints,
         Streak,
         QuizzesCompleted,
