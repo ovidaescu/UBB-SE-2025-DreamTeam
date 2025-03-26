@@ -16,6 +16,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Duo.Models;
+using Duo.UI.ViewModels;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -26,12 +27,15 @@ namespace DuolingoNou.Views.Pages
     public sealed partial class MainPage : Page
     {
         private readonly ProfileService _profileService;
+        public ListFriendsViewModel ViewModel { get; }
 
         public MainPage()
         {
             this.InitializeComponent();
             _profileService = new ProfileService();
             LoadUserDetails();
+            ViewModel = new ListFriendsViewModel(); // Initialize ViewModel
+            this.DataContext = ViewModel; // Set DataContext for binding
         }
 
         private void LoadUserDetails()
@@ -54,6 +58,28 @@ namespace DuolingoNou.Views.Pages
                 _profileService.AwardAchievements(currentUser);
                 System.Diagnostics.Debug.WriteLine("AwardAchievements called");
 
+            }
+        }
+
+        private void SortComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (SortComboBox.SelectedItem is ComboBoxItem selectedItem)
+            {
+                var selectedSortOption = selectedItem.Content.ToString();
+
+                // Sort based on the selected option
+                if (selectedSortOption == "Sort By Name")
+                {
+                    ViewModel.SortByName();
+                }
+                else if (selectedSortOption == "Sort By Date Added")
+                {
+                    ViewModel.SortByDateAdded();
+                }
+                else if (selectedSortOption == "Sort By Activity")
+                {
+                    ViewModel.SortByOnlineStatus();
+                }
             }
         }
 

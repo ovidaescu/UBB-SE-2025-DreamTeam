@@ -2,9 +2,10 @@
 using Microsoft.Data.SqlClient;
 using Duo.Models;
 using Duo.Data;
-using System;
-using DuolingoNou.Models;
 using System.Collections.Generic;
+using System;
+using Duo.Helpers;
+using DuolingoNou.Models;
 
 namespace Duo.Repositories
 {
@@ -36,7 +37,7 @@ namespace Duo.Repositories
                     return null;
                 }
                 var row = dataTable.Rows[0];
-                return MapUser(dataTable.Rows[0]);
+                return Mappers.MapUser(dataTable.Rows[0]);
             }
             catch (SqlException ex)
             {
@@ -67,7 +68,7 @@ namespace Duo.Repositories
                     return null;
                 }
                 var row = dataTable.Rows[0];
-                return MapUser(dataTable.Rows[0]);
+                return Mappers.MapUser(dataTable.Rows[0]);
             }
             catch (SqlException ex)
             {
@@ -79,7 +80,7 @@ namespace Duo.Repositories
             }
         }
 
-        public void CreateUser(User user)
+        public int CreateUser(User user)
         {
             SqlParameter[] parameters = new SqlParameter[]
             {
@@ -93,12 +94,17 @@ namespace Duo.Repositories
                 new SqlParameter("@TotalPoints", user.TotalPoints),
                 new SqlParameter("@CoursesCompleted", user.CoursesCompleted),
                 new SqlParameter("@QuizzesCompleted", user.QuizzesCompleted),
-                new SqlParameter("@Streak", user.Streak)
-
+                new SqlParameter("@Streak", user.Streak),
+                new SqlParameter("@LastActivityDate", user.LastActivityDate ?? (object)DBNull.Value),
+                new SqlParameter("@Accuracy", user.Accuracy)
             };
-            DataLink.ExecuteNonQuery("CreateUser", parameters);
-        }
 
+            // Use ExecuteScalar to return the newly inserted UserId
+            object result = DataLink.ExecuteScalar<int>("CreateUser", parameters);
+
+            // Convert result to int (handle null safety)
+            return result != null ? Convert.ToInt32(result) : -1;
+        }
 
         public void UpdateUser(User user)
         {
@@ -115,7 +121,9 @@ namespace Duo.Repositories
                 new SqlParameter("@TotalPoints", user.TotalPoints),
                 new SqlParameter("@CoursesCompleted", user.CoursesCompleted),
                 new SqlParameter("@QuizzesCompleted", user.QuizzesCompleted),
-                new SqlParameter("@Streak", user.Streak)
+                new SqlParameter("@Streak", user.Streak),
+                new SqlParameter("@LastActivityDate", user.LastActivityDate ?? (object)DBNull.Value),
+                new SqlParameter("@Accuracy", user.Accuracy)
             };
 
             DataLink.ExecuteNonQuery("UpdateUser", parameters);
@@ -143,11 +151,53 @@ namespace Duo.Repositories
                 CoursesCompleted = Convert.ToInt32(row["CoursesCompleted"]),
                 QuizzesCompleted = Convert.ToInt32(row["QuizzesCompleted"]),
                 Streak = Convert.ToInt32(row["Streak"]),
-                Password = row["Password"].ToString()!
+                Password = row["Password"].ToString()!,
+                Accuracy = Convert.ToDecimal(row["Accuracy"])
+
             };
         }
 
-     
+        public List<LeaderboardEntry> GetTopUsersByCompletedQuizzes()
+        {
+            var DataTable = DataLink.ExecuteReader("GetTopUsersByCompletedQuizzes");
+            List<LeaderboardEntry> users = new List<LeaderboardEntry>();
+            int index = 1;
+            foreach (DataRow row in DataTable.Rows)
+            {
+
+                users.Add( new LeaderboardEntry()
+                {
+                    Rank = index++,
+                    UserId = Convert.ToInt32(row["UserId"]),
+                    Username = row["UserName"].ToString()!,
+                    CompletedQuizzes = Convert.ToInt32(row["QuizzesCompleted"]),
+                    Accuracy = Convert.ToDecimal(row["Accuracy"]),
+                    ProfilePicture = ".. / .. / Assets /" + row["ProfileImage"].ToString()!
+                });
+            }
+
+            return users;
+        }
+
+        public List<LeaderboardEntry> GetTopUsersByAccuracy()
+        {
+            var DataTable = DataLink.ExecuteReader("GetTopUsersByAccuracy");
+            List<LeaderboardEntry> users = new List<LeaderboardEntry>();
+            int index = 1;
+            foreach (DataRow row in DataTable.Rows)
+            {
+                users.Add(new LeaderboardEntry()
+                {
+                    Rank = index++,
+                    UserId = Convert.ToInt32(row["UserId"]),
+                    Username = row["UserName"].ToString()!,
+                    CompletedQuizzes = Convert.ToInt32(row["QuizzesCompleted"]),
+                    Accuracy = Convert.ToDecimal(row["Accuracy"]),
+                    ProfilePicture = ".. / .. / Assets /" + row["ProfileImage"].ToString()!
+                });
+            }
+            return users;
+        }
 
         internal User GetUserByCredentials(string username, string password)
         {
@@ -156,7 +206,6 @@ namespace Duo.Repositories
             {
                 return user;
             }
-
             return null; // Either user not found or password doesn't match
         }
 
@@ -240,6 +289,25 @@ namespace Duo.Repositories
 
             DataLink.ExecuteNonQuery("AwardAchievement", parameters);
         }
+
+        public List<User> GetFriends(int userId)
+        {
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                    new SqlParameter("@UserId", userId)
+            };
+
+            DataTable dataTable = DataLink.ExecuteReader("GetFriends", parameters);
+            List<User> friends = new List<User>();
+
+            foreach (DataRow row in dataTable.Rows)
+            {
+                friends.Add(Mappers.MapUser(row));
+            }
+
+            return friends;
+        }
+
 
 
     }

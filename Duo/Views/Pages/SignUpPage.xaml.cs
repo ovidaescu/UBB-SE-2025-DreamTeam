@@ -6,8 +6,9 @@ using Duo.Services;
 using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using DuolingoNou.Views;
 
-namespace DuolingoNou.Views.Pages
+namespace Duo.Views.Pages
 {
     public sealed partial class SignUpPage : Page
     {
@@ -62,6 +63,10 @@ namespace DuolingoNou.Views.Pages
             }
 
             ViewModel.CreateNewUser(NewUser);
+
+            // Optionally set the CurrentUser globally if needed
+            Duo.App.CurrentUser = NewUser;
+
             await ShowDialog("Account Created", "Your account has been successfully created!");
             Frame.Navigate(typeof(ShellPage));
         }

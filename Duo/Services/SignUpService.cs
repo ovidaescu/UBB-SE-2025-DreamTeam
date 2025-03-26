@@ -38,7 +38,8 @@ namespace Duo.Services
             if (await IsUsernameTaken(user.UserName))
                 return false;
 
-            _userRepository.CreateUser(user);
+            user.OnlineStatus = true;
+            user.UserId = _userRepository.CreateUser(user);
             return true;
         }
     }

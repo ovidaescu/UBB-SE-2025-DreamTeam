@@ -15,6 +15,7 @@ namespace Duo
         private static IConfiguration _configuration;
         private static DataLink _dataLink;
         public static UserRepository userRepository;
+        public static FriendsRepository friendsRepository;
         public static User CurrentUser { get; set; }
 
         public static Window MainAppWindow { get; private set; }
@@ -27,6 +28,7 @@ namespace Duo
             _configuration = InitializeConfiguration();
             _dataLink = new DataLink(_configuration);
             userRepository = new UserRepository(_dataLink);
+            friendsRepository = new FriendsRepository(_dataLink);
         }
 
         private IConfiguration InitializeConfiguration()

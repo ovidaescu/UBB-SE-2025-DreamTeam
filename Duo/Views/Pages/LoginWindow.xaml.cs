@@ -1,12 +1,14 @@
 using Duo;
 using Duo.ViewModels;
+using DuolingoNou.Views;
+using DuolingoNou.Views.Pages;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace DuolingoNou.Views.Pages
+namespace Duo.Views.Pages
 {
     public sealed partial class LoginPage : Page
     {

@@ -14,6 +14,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Duo.ViewModels;
 using Duo;
+using Duo.Views.Pages;
 
 
 namespace DuolingoNou.Views.Pages
