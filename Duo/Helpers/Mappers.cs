@@ -22,6 +22,7 @@ public static class Mappers
             QuizzesCompleted = Convert.ToInt32(row["QuizzesCompleted"]),
             Streak = Convert.ToInt32(row["Streak"]),
             Password = row["Password"].ToString()!,
+            LastActivityDate = row["LastActivityDate"] == DBNull.Value ? null : (DateTime?)row["LastActivityDate"],
             Accuracy = Convert.ToDecimal(row["Accuracy"])
         };
     }

@@ -80,7 +80,7 @@ namespace Duo.Repositories
             }
         }
 
-        public void CreateUser(User user)
+        public int CreateUser(User user)
         {
             SqlParameter[] parameters = new SqlParameter[]
             {
@@ -90,15 +90,20 @@ namespace Duo.Repositories
                 new SqlParameter("@PrivacyStatus", user.PrivacyStatus),
                 new SqlParameter("@OnlineStatus", user.OnlineStatus),
                 new SqlParameter("@DateJoined", user.DateJoined),
-                new SqlParameter("@ProfileImage", user.ProfileImage ?? "default.jpg"),
+                new SqlParameter("@ProfileImage", user.ProfileImage ?? ""),
                 new SqlParameter("@TotalPoints", user.TotalPoints),
                 new SqlParameter("@CoursesCompleted", user.CoursesCompleted),
                 new SqlParameter("@QuizzesCompleted", user.QuizzesCompleted),
                 new SqlParameter("@Streak", user.Streak),
+                new SqlParameter("@LastActivityDate", user.LastActivityDate ?? (object)DBNull.Value),
                 new SqlParameter("@Accuracy", user.Accuracy)
-
             };
-            DataLink.ExecuteNonQuery("CreateUser", parameters);
+
+            // Use ExecuteScalar to return the newly inserted UserId
+            object result = DataLink.ExecuteScalar<int>("CreateUser", parameters);
+
+            // Convert result to int (handle null safety)
+            return result != null ? Convert.ToInt32(result) : -1;
         }
 
         public void UpdateUser(User user)
@@ -117,6 +122,7 @@ namespace Duo.Repositories
                 new SqlParameter("@CoursesCompleted", user.CoursesCompleted),
                 new SqlParameter("@QuizzesCompleted", user.QuizzesCompleted),
                 new SqlParameter("@Streak", user.Streak),
+                new SqlParameter("@LastActivityDate", user.LastActivityDate ?? (object)DBNull.Value),
                 new SqlParameter("@Accuracy", user.Accuracy)
             };
 
@@ -284,8 +290,24 @@ namespace Duo.Repositories
             DataLink.ExecuteNonQuery("AwardAchievement", parameters);
         }
 
+        public List<User> GetFriends(int userId)
+        {
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                    new SqlParameter("@UserId", userId)
+            };
 
-        
+            DataTable dataTable = DataLink.ExecuteReader("GetFriends", parameters);
+            List<User> friends = new List<User>();
+
+            foreach (DataRow row in dataTable.Rows)
+            {
+                friends.Add(Mappers.MapUser(row));
+            }
+
+            return friends;
+        }
+
 
 
     }

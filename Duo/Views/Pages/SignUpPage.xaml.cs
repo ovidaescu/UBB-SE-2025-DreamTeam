@@ -63,6 +63,10 @@ namespace Duo.Views.Pages
             }
 
             ViewModel.CreateNewUser(NewUser);
+
+            // Optionally set the CurrentUser globally if needed
+            Duo.App.CurrentUser = NewUser;
+
             await ShowDialog("Account Created", "Your account has been successfully created!");
             Frame.Navigate(typeof(ShellPage));
         }
