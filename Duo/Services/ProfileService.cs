@@ -38,28 +38,39 @@ namespace Duo.Services
             List<Achievement> achievements = _userRepository.GetAllAchievements();
             List<Achievement> userAchievements = _userRepository.GetUserAchievements(user.UserId);
 
-            foreach (var achievement in achievements)
+            // Separate achievements by type and sort them highest to lowest
+            var streakAchievements = achievements.Where(a => a.Name.Contains("Streak"))
+                                                 .OrderByDescending(a => GetAchievementThreshold(a.Name)).ToList();
+            var quizAchievements = achievements.Where(a => a.Name.Contains("Quizzes Completed"))
+                                               .OrderByDescending(a => GetAchievementThreshold(a.Name)).ToList();
+            var courseAchievements = achievements.Where(a => a.Name.Contains("Courses Completed"))
+                                                 .OrderByDescending(a => GetAchievementThreshold(a.Name)).ToList();
+
+            // Award highest achievement per category
+            AwardCategoryAchievement(user, streakAchievements, user.Streak, ref userAchievements);
+            AwardCategoryAchievement(user, quizAchievements, user.QuizzesCompleted, ref userAchievements);
+            AwardCategoryAchievement(user, courseAchievements, user.CoursesCompleted, ref userAchievements);
+        }
+
+        private void AwardCategoryAchievement(User user, List<Achievement> categoryAchievements, int statValue, ref List<Achievement> userAchievements)
+        {
+            foreach (var achievement in categoryAchievements)
             {
-                if (!userAchievements.Any(a => a.Id == achievement.Id))
+                if (statValue >= GetAchievementThreshold(achievement.Name) &&
+                    !userAchievements.Any(a => a.Id == achievement.Id))
                 {
-                    if (achievement.Name.Contains("Streak") && user.Streak >= GetAchievementThreshold(achievement.Name))
-                    {
-                        _userRepository.AwardAchievement(user.UserId, achievement.Id);
-                        System.Diagnostics.Debug.WriteLine($"Awarded achievement: {achievement.Name}");
-                    }
-                    else if (achievement.Name.Contains("Quizzes Completed") && user.QuizzesCompleted >= GetAchievementThreshold(achievement.Name))
-                    {
-                        _userRepository.AwardAchievement(user.UserId, achievement.Id);
-                        System.Diagnostics.Debug.WriteLine($"Awarded achievement: {achievement.Name}");
-                    }
-                    else if (achievement.Name.Contains("Courses Completed") && user.CoursesCompleted >= GetAchievementThreshold(achievement.Name))
-                    {
-                        _userRepository.AwardAchievement(user.UserId, achievement.Id);
-                        System.Diagnostics.Debug.WriteLine($"Awarded achievement: {achievement.Name}");
-                    }
+                    _userRepository.AwardAchievement(user.UserId, achievement.Id);
+                    System.Diagnostics.Debug.WriteLine($"Awarded achievement: {achievement.Name}");
+
+                    // **Manually update the local userAchievements list**
+                    userAchievements.Add(achievement);
+
+                    break; // Only award the highest achievement in this category
                 }
             }
         }
+
+
 
         private int GetAchievementThreshold(string achievementName)
         {

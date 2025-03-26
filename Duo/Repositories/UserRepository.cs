@@ -214,7 +214,7 @@ namespace Duo.Repositories
         {
             SqlParameter[] parameters = new SqlParameter[]
             {
-        new SqlParameter("@UserId", userId)
+                new SqlParameter("@UserId", userId)
             };
 
             DataTable dataTable = DataLink.ExecuteReader("GetUserStats", parameters);
@@ -224,6 +224,9 @@ namespace Duo.Repositories
                 DataRow row = dataTable.Rows[0];
                 return new User
                 {
+                    UserId = Convert.ToInt32(row["UserId"]),
+                    UserName = row["UserName"].ToString()!,
+                    ProfileImage = row["ProfileImage"].ToString()!,
                     TotalPoints = Convert.ToInt32(row["TotalPoints"]),
                     Streak = Convert.ToInt32(row["Streak"]),
                     QuizzesCompleted = Convert.ToInt32(row["QuizzesCompleted"]),

@@ -27,6 +27,7 @@ namespace DuolingoNou.Views.Pages
     {
         private ProfileViewModel _viewModel;
         private ProfileService _profileService;
+        private bool achievementsAwarded = false;
 
 
         public AchievementsPage()
@@ -54,7 +55,11 @@ namespace DuolingoNou.Views.Pages
         private void LoadUserAchievements()
         {
             User currentUser = _profileService.GetUserStats(App.CurrentUser.UserId);
-            _profileService.AwardAchievements(currentUser);
+            if (achievementsAwarded == false)
+            {
+                _profileService.AwardAchievements(currentUser);
+                achievementsAwarded = true;
+            }
 
             List<Achievement> userAchievements = _profileService.GetUserAchievements(App.CurrentUser.UserId);
 
