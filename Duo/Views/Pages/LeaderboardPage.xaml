@@ -44,6 +44,15 @@
                 BorderBrush="DarkGray" 
                 BorderThickness="1"
                 Click="FriendsButton_Click"/>
+
+            <ComboBox x:Name="CoursesComboBox"
+                Width="100"
+                Margin="10">
+                <ComboBox.Items>
+                    <ComboBoxItem Content="Select Course" IsSelected="True" IsEnabled="False" Foreground="Gray"/>
+                    <ComboBoxItem Content="Default"/>
+                </ComboBox.Items>
+            </ComboBox>
         </StackPanel>
 
         <Button Content="Refresh" 

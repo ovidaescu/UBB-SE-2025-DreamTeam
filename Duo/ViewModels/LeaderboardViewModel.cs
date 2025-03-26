@@ -51,6 +51,10 @@ namespace Duo.Views.Pages
             return users.IndexOf(currentUser) + 1;
         }
 
+        public List<string> GetCourses()
+        {
+            return _leaderboardService.GetCourses();
+        }
 
     }
 }

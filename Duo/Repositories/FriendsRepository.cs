@@ -82,4 +82,28 @@ public class FriendsRepository
         return users;
     }
 
+    public List<LeaderboardEntry> GetTopFriendsForCourse(int userId, int courseId)
+    {
+        SqlParameter[] sqlParameters = new SqlParameter[]
+        {
+            new SqlParameter("@UserId", userId),
+            new SqlParameter("@CourseId", courseId)
+        };
+        var DataTable = DataLink.ExecuteReader("GetTopFriendsForCourse", sqlParameters);
+        List<LeaderboardEntry> users = new List<LeaderboardEntry>();
+        int index = 1;
+        foreach (DataRow row in DataTable.Rows)
+        {
+            users.Add(new LeaderboardEntry()
+            {
+                Rank = index++,
+                UserId = Convert.ToInt32(row["UserId"]),
+                Username = row["UserName"].ToString()!,
+                Accuracy = Convert.ToDecimal(row["Accuracy"]),
+                ProfilePicture = ".. / .. / Assets /" + row["CompletionPercentage"].ToString()!
+            });
+        }
+        return users;
+    }
+
 }

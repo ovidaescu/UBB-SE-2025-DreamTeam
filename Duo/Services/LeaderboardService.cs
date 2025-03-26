@@ -50,15 +50,9 @@ class LeaderboardService
         }
     }
 
-
-    public void UpdateUserScore(int userId, int points)
+    public List<string> GetCourses()
     {
-        //TODO: Implement this method
+        return _userRepository.GetCourses();
     }
-    public void CalculateRankChange(int userId, string timeFrame)
-    {
-        //TODO: Implement this method
-    }
-
 }
 

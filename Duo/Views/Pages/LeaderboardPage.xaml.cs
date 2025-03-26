@@ -14,7 +14,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Duo.Models;
 using System.Collections.ObjectModel;
-using Duo.Data;
+using Duo.ViewModels;
 using Duo.Helpers;
 using System.Data;
 using DuolingoNou.Views.Pages;
@@ -33,7 +33,7 @@ public sealed partial class LeaderboardPage : Page
     public ObservableCollection<LeaderboardEntry> Leaderboard { get; set; }
     private LeaderBoardViewModel _leaderBoardViewModel;
     private string _selectedMode = "Global";
-    private int currentUserId = App.CurrentUser.UserId;
+    private int currentUserId = 1;
     public LeaderboardPage()
     {
         this.InitializeComponent();
@@ -41,6 +41,19 @@ public sealed partial class LeaderboardPage : Page
         Leaderboard = new ObservableCollection<LeaderboardEntry>(_leaderBoardViewModel.GetGlobalLeaderboard("Accuracy"));
         LeaderboardListView.ItemsSource = Leaderboard;
         CurrentUserRank.Text = $"Your Rank: {_leaderBoardViewModel.GetCurrentUserGlobalRank(currentUserId, "Accuracy")}";
+
+        List<string> courses = _leaderBoardViewModel.GetCourses();
+        AddCoursesToComboBox(courses);
+    }
+
+    private void AddCoursesToComboBox(List<string> courses)
+    {
+        foreach (var course in courses)
+        {
+            ComboBoxItem item = new ComboBoxItem();
+            item.Content = course;
+            CoursesComboBox.Items.Add(item);
+        }
     }
 
     // Event handler for Global button click

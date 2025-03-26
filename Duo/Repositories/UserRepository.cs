@@ -199,6 +199,40 @@ namespace Duo.Repositories
             return users;
         }
 
+        public List<LeaderboardEntry> GetTopUsersForCourse(int courseId)
+        {
+            SqlParameter[] sqlParameters = new SqlParameter[]
+            {
+                new SqlParameter("@CourseId", courseId)
+            };
+            var DataTable = DataLink.ExecuteReader("GetTopUsersForCourse", sqlParameters);
+            List<LeaderboardEntry> users = new List<LeaderboardEntry>();
+            int index = 1;
+            foreach (DataRow row in DataTable.Rows)
+            {
+                users.Add(new LeaderboardEntry()
+                {
+                    Rank = index++,
+                    UserId = Convert.ToInt32(row["UserId"]),
+                    Username = row["UserName"].ToString()!,
+                    Accuracy = Convert.ToDecimal(row["Accuracy"]),
+                    ProfilePicture = ".. / .. / Assets /" + row["CompletionPercentage"].ToString()!
+                });
+            }
+            return users;
+        }
+
+        public List<string> GetCourses()
+        {
+            var DataTable = DataLink.ExecuteReader("GetCourses");
+            List<string> courses = new List<string>();
+            foreach (DataRow row in DataTable.Rows)
+            {
+                courses.Add(row["Name"].ToString()!);
+            }
+            return courses;
+        }
+
         internal User GetUserByCredentials(string username, string password)
         {
             var user = GetUserByUsername(username);

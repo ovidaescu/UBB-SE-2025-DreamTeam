@@ -14,7 +14,7 @@ namespace Duo
             this.InitializeComponent();
             _loginViewModel = new LoginViewModel();
             // this.DataContext = _loginViewModel;
-            MainFrame.Navigate(typeof(LoginPage));
+            MainFrame.Navigate(typeof(LeaderboardPage));
             this.Closed += MainWindow_Closed; // Handle the Closed event
         }
 
