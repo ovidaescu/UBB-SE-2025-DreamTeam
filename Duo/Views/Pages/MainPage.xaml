@@ -34,7 +34,7 @@
                         <Ellipse Fill="Gray"/>
                         <Ellipse>
                             <Ellipse.Fill>
-                                <ImageBrush x:Name="ProfileImageBrush" Stretch="UniformToFill"/>
+                                <ImageBrush x:Name="ProfilePic" Stretch="UniformToFill"/>
                             </Ellipse.Fill>
                         </Ellipse>
                     </Grid>

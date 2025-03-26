@@ -17,6 +17,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Duo.Models;
 using Duo.UI.ViewModels;
+using Windows.Storage.Streams;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -38,6 +39,32 @@ namespace DuolingoNou.Views.Pages
             this.DataContext = ViewModel; // Set DataContext for binding
         }
 
+        private BitmapImage ConvertBase64ToImage(string base64String)
+        {
+            try
+            {
+                byte[] bytes = Convert.FromBase64String(base64String);
+                using (InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream())
+                {
+                    using (DataWriter writer = new DataWriter(stream))
+                    {
+                        writer.WriteBytes(bytes);
+                        writer.StoreAsync().AsTask().Wait();
+                    }
+
+                    BitmapImage image = new BitmapImage();
+                    stream.Seek(0);
+                    image.SetSource(stream);
+                    return image;
+                }
+            }
+            catch
+            {
+                // Return a default image if conversion fails
+                return new BitmapImage(new Uri("ms-appx:///Assets/default_profile.png"));
+            }
+        }
+
         private void LoadUserDetails()
         {
             User currentUser = _profileService.GetUserStats(App.CurrentUser.UserId);
@@ -46,7 +73,22 @@ namespace DuolingoNou.Views.Pages
             {
                 UsernameText.Text = currentUser.UserName;
                 FriendCountText.Text = $"18 friends";
-                // ProfileImageBrush.ImageSource = new BitmapImage(new Uri(currentUser.ProfileImage));
+                if (!string.IsNullOrEmpty(currentUser.ProfileImage))
+                {
+                    if (currentUser.ProfileImage.StartsWith("data:image")) // If it's Base64
+                    {
+                        ProfilePic.ImageSource = ConvertBase64ToImage(currentUser.ProfileImage.Split(',')[1]); // Remove metadata
+                    }
+                    else if (Uri.IsWellFormedUriString(currentUser.ProfileImage, UriKind.Absolute)) // If it's a valid URL
+                    {
+                        ProfilePic.ImageSource = new BitmapImage(new Uri(currentUser.ProfileImage));
+                    }
+                    else
+                    {
+                        // Handle invalid image path (fallback to default image)
+                        ProfilePic.ImageSource = new BitmapImage(new Uri("ms-appx:///Assets/default_profile.png"));
+                    }
+                }
 
                 // Update statistics
                 DayStreakText.Text = currentUser.Streak.ToString();
