@@ -33,7 +33,7 @@ public sealed partial class LeaderboardPage : Page
     public ObservableCollection<LeaderboardEntry> Leaderboard { get; set; }
     private LeaderBoardViewModel _leaderBoardViewModel;
     private string _selectedMode = "Global";
-    private int currentUserId = 1;
+    private int currentUserId = App.CurrentUser.Id;
     public LeaderboardPage()
     {
         this.InitializeComponent();
