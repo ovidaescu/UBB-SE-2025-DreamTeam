@@ -214,21 +214,27 @@ namespace Duo.Repositories
                 {
                     Rank = index++,
                     UserId = Convert.ToInt32(row["UserId"]),
-                    Username = row["UserName"].ToString()!,
-                    Accuracy = Convert.ToDecimal(row["Accuracy"]),
-                    ProfilePicture = ".. / .. / Assets /" + row["CompletionPercentage"].ToString()!
+                    Username = row["Username"].ToString()!,
+                    Accuracy = decimal.Parse(Convert.ToDecimal(row["CompletionPercentage"]).ToString("0.00")),
+                    CompletedQuizzes = Convert.ToInt32(row["LessonsCompleted"]),
+                    ProfilePicture = "../../Assets/" + row["ProfileImage"].ToString()!
                 });
             }
             return users;
         }
 
-        public List<string> GetCourses()
+        public List<Course> GetCourses()
         {
             var DataTable = DataLink.ExecuteReader("GetCourses");
-            List<string> courses = new List<string>();
+            List<Course> courses = new List<Course>();
             foreach (DataRow row in DataTable.Rows)
             {
-                courses.Add(row["Name"].ToString()!);
+                courses.Add(new Course()
+                {
+                    Id = Convert.ToInt32(row["CourseId"]),
+                    Name = row["Name"].ToString()!,
+                    TotalNumOfLessons = Convert.ToInt32(row["TotalNumberOfLessons"])
+                });
             }
             return courses;
         }

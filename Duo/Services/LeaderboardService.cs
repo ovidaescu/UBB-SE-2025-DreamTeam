@@ -50,7 +50,17 @@ class LeaderboardService
         }
     }
 
-    public List<string> GetCourses()
+    public List<LeaderboardEntry> GetTopUsersForCourse(int courseId)
+    {
+        return _userRepository.GetTopUsersForCourse(courseId);
+    }
+
+    public List<LeaderboardEntry> GetTopFriendsForCourse(int userId, int courseId)
+    {
+        return _friendsRepository.GetTopFriendsForCourse(userId, courseId);
+    }
+
+    public List<Course> GetCourses()
     {
         return _userRepository.GetCourses();
     }
