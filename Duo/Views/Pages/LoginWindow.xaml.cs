@@ -39,8 +39,6 @@ namespace Duo.Views.Pages
             if (ViewModel.LoginStatus)
             {
                 App.CurrentUser = ViewModel.LoggedInUser;
-                LoginStatusMessage.Text = "You have successfully logged in!";
-                LoginStatusMessage.Visibility = Visibility.Visible;
                 Frame.Navigate(typeof(ShellPage));
             }
             else

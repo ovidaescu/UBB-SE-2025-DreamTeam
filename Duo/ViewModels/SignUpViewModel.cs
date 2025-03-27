@@ -19,6 +19,11 @@ namespace Duo.ViewModels
             return await _signUpService.IsUsernameTaken(username);
         }
 
+        public async Task<bool> IsEmailTaken(string email)
+        {
+            return await _signUpService.IsEmailTaken(email);
+        }
+
         public async Task<bool> CreateNewUser(User user)
         {
             try

@@ -58,7 +58,7 @@ namespace DuolingoNou.Services
                 Streak = user.Streak
             };
 
-            _userRepository.CreateUser(updatedUser);
+            _userRepository.UpdateUser(updatedUser);
             return true;
         }
 
@@ -76,7 +76,7 @@ namespace DuolingoNou.Services
                 using (var smtpClient = new SmtpClient("smtp.gmail.com")
                 {
                     Port = 587,
-                    Credentials = new NetworkCredential("georgedregan.27@gmail.com", "jbzc qiyn htks fthj"),
+                    Credentials = new NetworkCredential("georgedregan.27@gmail.com", "unyv ykud usjg cvaz"),
                     EnableSsl = true,
                     DeliveryMethod = SmtpDeliveryMethod.Network,
                     UseDefaultCredentials = false,
@@ -85,7 +85,7 @@ namespace DuolingoNou.Services
                 {
                     var mailMessage = new MailMessage
                     {
-                        From = new MailAddress("duolikeapp@outlook.com", "Your App Name"),
+                        From = new MailAddress("georgedregan.27@gmail.com", "duo"),
                         Subject = "Password Reset Code",
                         Body = $"Your verification code is: {code}",
                         IsBodyHtml = false,
