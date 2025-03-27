@@ -1,7 +1,7 @@
 Use Duolingo;
 Go
 
-CREATE OR ALTER PROCEDURE GetTopUserForCourse
+CREATE OR ALTER PROCEDURE GetTopUsersForCourse
     @CourseId INT
 AS
 BEGIN
