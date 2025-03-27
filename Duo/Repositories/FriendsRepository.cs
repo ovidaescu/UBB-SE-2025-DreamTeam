@@ -81,7 +81,6 @@ public class FriendsRepository
 
         return users;
     }
-
     public List<LeaderboardEntry> GetTopFriendsForCourse(int userId, int courseId)
     {
         SqlParameter[] sqlParameters = new SqlParameter[]
@@ -98,9 +97,10 @@ public class FriendsRepository
             {
                 Rank = index++,
                 UserId = Convert.ToInt32(row["UserId"]),
-                Username = row["UserName"].ToString()!,
-                Accuracy = Convert.ToDecimal(row["Accuracy"]),
-                ProfilePicture = ".. / .. / Assets /" + row["CompletionPercentage"].ToString()!
+                Username = row["Username"].ToString()!,
+                Accuracy = decimal.Parse(Convert.ToDecimal(row["CompletionPercentage"]).ToString("0.00")),
+                CompletedQuizzes = Convert.ToInt32(row["LessonsCompleted"]),
+                ProfilePicture = "../../Assets/" + row["ProfileImage"].ToString()!
             });
         }
         return users;

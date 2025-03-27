@@ -33,6 +33,7 @@
                 Background="LightGray" 
                 BorderBrush="DarkGray" 
                 BorderThickness="1"
+                x:Name="GlobalButton"
                 Click="GlobalButton_Click"/>
 
             <!-- Friends Button -->
@@ -43,14 +44,15 @@
                 Background="LightGray" 
                 BorderBrush="DarkGray" 
                 BorderThickness="1"
+                x:Name="FriendsButton"
                 Click="FriendsButton_Click"/>
 
             <ComboBox x:Name="CoursesComboBox"
-                Width="100"
-                Margin="10">
+                Width="200"
+                Margin="10"
+                SelectionChanged="CoursesComboBox_SelectionChanged">
                 <ComboBox.Items>
-                    <ComboBoxItem Content="Select Course" IsSelected="True" IsEnabled="False" Foreground="Gray"/>
-                    <ComboBoxItem Content="Default"/>
+                    <ComboBoxItem x:Name="SelectCourse" Content="Select Course" IsSelected="True" IsEnabled="False" Foreground="Gray"/>
                 </ComboBox.Items>
             </ComboBox>
         </StackPanel>
@@ -94,22 +96,22 @@
                         <!-- Fixed width for Rank -->
                         <ColumnDefinition Width="*" />
                         <!-- Flexible width for Username -->
-                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="*" />
                         <!-- Fixed width for Accuracy -->
                         <ColumnDefinition Width="*" />
                         <!-- Flexible width for Completed Quizzes -->
                     </Grid.ColumnDefinitions>
-                    <Border BorderBrush="Gray" BorderThickness="0,0,1,0" Grid.Column="0">
+                    <Border BorderBrush="Gray" BorderThickness="0,0,0,0" Grid.Column="0">
                         <TextBlock Text="Rank" FontWeight="Bold" HorizontalAlignment="Center" />
                     </Border>
-                    <Border BorderBrush="Gray" BorderThickness="0,0,1,0" Grid.Column="1">
+                    <Border BorderBrush="Gray" BorderThickness="0,0,0,0" Grid.Column="1">
                         <TextBlock Text="Username" FontWeight="Bold" HorizontalAlignment="Center" />
                     </Border>
-                    <Border BorderBrush="Gray" BorderThickness="0,0,1,0" Grid.Column="2">
-                        <TextBlock Text="Accuracy (%)" FontWeight="Bold" HorizontalAlignment="Center" />
+                    <Border BorderBrush="Gray" BorderThickness="0,0,0,0" Grid.Column="2">
+                        <TextBlock x:Name="AccuracyHeader" Text="Accuracy (%)" FontWeight="Bold" HorizontalAlignment="Center" />
                     </Border>
                     <Border BorderBrush="Gray" BorderThickness="0,0,0,0" Grid.Column="3">
-                        <TextBlock Text="Completed Quizzes" FontWeight="Bold" HorizontalAlignment="Center" />
+                        <TextBlock x:Name="CompletedQuizzesHeader" Text="Completed Quizzes" FontWeight="Bold" HorizontalAlignment="Center" />
                     </Border>
                 </Grid>
             </ListView.Header>

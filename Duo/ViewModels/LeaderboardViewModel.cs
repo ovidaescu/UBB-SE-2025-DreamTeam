@@ -51,9 +51,41 @@ namespace Duo.Views.Pages
             return users.IndexOf(currentUser) + 1;
         }
 
-        public List<string> GetCourses()
+        public List<Course> GetCourses()
         {
             return _leaderboardService.GetCourses();
+        }
+
+        public List<LeaderboardEntry> GetTopUsersForCourse(int courseId)
+        {
+            return _leaderboardService.GetTopUsersForCourse(courseId);
+        }
+
+        public List<LeaderboardEntry> GetTopFriendsForCourse(int userId, int courseId)
+        {
+            return _leaderboardService.GetTopFriendsForCourse(userId, courseId);
+        }
+
+        public int GetCurrentUserCourseRank(int userId, int courseId)
+        {
+            var users = _leaderboardService.GetTopUsersForCourse(courseId);
+            var currentUser = users.FirstOrDefault(user => user.UserId == userId);
+            if (currentUser == null)
+            {
+                return -1;
+            }
+            return users.IndexOf(currentUser) + 1;
+        }
+
+        public int GetCurrentUserFriendsCourseRank(int userId, int courseId)
+        {
+            var users = _leaderboardService.GetTopFriendsForCourse(userId, courseId);
+            var currentUser = users.FirstOrDefault(user => user.UserId == userId);
+            if (currentUser == null)
+            {
+                return -1;
+            }
+            return users.IndexOf(currentUser) + 1;
         }
 
     }
