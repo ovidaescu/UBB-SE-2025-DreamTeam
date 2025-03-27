@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace Duo.Models
 {
-    public class Course
+    public class Quiz
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        public string Language { get; set; }
-        public double CompletionPercentage { get; set; }
-        public DateTime EnrollmentDate { get; set; }
+        public string Category { get; set; }
+        public double AccuracyPercentage { get; set; }
+        public DateTime CompletionDate { get; set; }
 
         // Added formatted property
-        public string FormattedCompletion => $"{CompletionPercentage * 100:F0}%";
+        public string FormattedAccuracy => $"{AccuracyPercentage * 100:F0}%";
     }
 }

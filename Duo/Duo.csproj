@@ -15,8 +15,10 @@
   <ItemGroup>
     <None Remove="appsettings.json" />
     <None Remove="Views\Pages\AchievementsPage.xaml" />
+    <None Remove="Views\Pages\coursePage.xaml" />
     <None Remove="Views\Pages\MainPage.xaml" />
     <None Remove="Views\Pages\ProfileSettingsPage.xaml" />
+    <None Remove="Views\Pages\quizPage.xaml" />
     <None Remove="Views\Pages\ResetPasswordPage.xaml" />
     <None Remove="Views\ShellPage.xaml" />
   </ItemGroup>
@@ -72,6 +74,14 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Components\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Pages\CoursePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\Pages\QuizPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\Pages\ResetPasswordPage.xaml">

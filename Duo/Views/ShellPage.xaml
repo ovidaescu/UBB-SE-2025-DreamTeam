@@ -50,8 +50,8 @@
             </NavigationViewItem>
 
             <!-- Other Main Items -->
-            <NavigationViewItem Content="Courses" Icon="Library" Tag="Courses" />
-            <NavigationViewItem Content="Quiz" Icon="Help" Tag="Quiz" />
+            <NavigationViewItem Content="MyCourses" Icon="Library" Tag="Courses" />
+            <NavigationViewItem Content="MyQuiz" Icon="Help" Tag="Quiz" />
         </NavigationView.MenuItems>
 
         <Frame x:Name="ContentFrame" />
