@@ -8,7 +8,8 @@ BEGIN
     SELECT TOP 10 
         UC.UserId,
         U.Username,
-		U.ProfileImage,
+	U.ProfileImage,
+	UC.LessonsCompleted,
         CAST(UC.LessonsCompleted AS DECIMAL(5,2)) / 
         CASE 
             WHEN C.TotalNumberOfLessons > 0 
