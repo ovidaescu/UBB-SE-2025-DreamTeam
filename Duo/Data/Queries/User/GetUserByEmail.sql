@@ -4,6 +4,6 @@ AS
 BEGIN
     SELECT *
     FROM Users
-    WHERE UserName = @Email;
+    WHERE Email = @Email;
 END;
 GO

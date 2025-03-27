@@ -28,6 +28,20 @@ namespace Duo.Services
             }
         }
 
+        public async Task<bool> IsEmailTaken(string email)
+        {
+            try
+            {
+                var user = await Task.Run(() => _userRepository.GetUserByEmail(email));
+                return user != null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error checking email: {ex.Message}");
+                return true; // Fail-safe: assume taken if error occurs
+            }
+        }
+
         public async Task<bool> RegisterUser(User user)
         {
             // Check if email exists

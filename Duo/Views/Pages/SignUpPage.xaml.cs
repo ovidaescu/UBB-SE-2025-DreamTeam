@@ -39,6 +39,11 @@ namespace Duo.Views.Pages
                 UsernameValidationTextBlock.Text = "";
             }
 
+            if (await IsEmailTaken(NewUser.Email)) {
+                await ShowDialog("Email Taken", "This email is already in use. Please choose another.");
+                return;
+            }
+
             if (await IsUsernameTaken(NewUser.UserName))
             {
                 await ShowDialog("Username Taken", "This username is already in use. Please choose another.");
@@ -68,7 +73,7 @@ namespace Duo.Views.Pages
             Duo.App.CurrentUser = NewUser;
 
             await ShowDialog("Account Created", "Your account has been successfully created!");
-            Frame.Navigate(typeof(ShellPage));
+            Frame.Navigate(typeof(LoginPage));
         }
 
         private async Task<bool> IsUsernameTaken(string username)
@@ -89,14 +94,27 @@ namespace Duo.Views.Pages
             }
         }
 
+        private async Task<bool> IsEmailTaken(string email)
+        {
+            try
+            {
+                // Call the ViewModel's async method and await the result
+                return await ViewModel.IsEmailTaken(email);
+            }
+            catch (Exception ex)
+            {
+                // Log error (you should use proper logging in production)
+                Console.WriteLine($"Error checking emial: {ex.Message}");
+
+                // Return true as a fail-safe to prevent duplicate usernames
+                // if there's an error checking availability
+                return true;
+            }
+        }
+
         private bool IsValidUsername(string username)
         {
             return Regex.IsMatch(username, "^[A-Za-z0-9_]{5,20}$");
-        }
-
-        private bool IsValidPassword(string password)
-        {
-            return Regex.IsMatch(password, "^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,15}$");
         }
 
         private void PasswordBoxWithRevealMode_PasswordChanged(object sender, RoutedEventArgs e)

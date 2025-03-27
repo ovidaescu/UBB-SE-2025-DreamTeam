@@ -15,6 +15,8 @@ using Microsoft.UI.Xaml.Navigation;
 using Duo.ViewModels;
 using Duo;
 using Duo.Views.Pages;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 
 namespace DuolingoNou.Views.Pages
@@ -60,17 +62,53 @@ namespace DuolingoNou.Views.Pages
             }
         }
 
+        private string GetPasswordStrength(string password)
+        {
+            if (password.Length < 6) return "Weak";
+            if (Regex.IsMatch(password, "^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&]).{6,15}$")) return "Strong";
+            if (Regex.IsMatch(password, "^(?=.*[A-Z])|(?=.*\\d)|(?=.*[@$!%*?&]).{6,15}$")) return "Medium";
+            return "Weak";
+        }
+
+        private void PasswordBoxWithRevealMode_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            PasswordStrengthTextBlock.Text = GetPasswordStrength(PasswordBoxWithRevealMode.Password);
+        }
+
+        private void RevealModeCheckbox_Changed(object sender, RoutedEventArgs e)
+        {
+            PasswordBoxWithRevealMode.PasswordRevealMode = RevealModeCheckBox.IsChecked == true ? PasswordRevealMode.Visible : PasswordRevealMode.Hidden;
+            ConfirmPasswordBox.PasswordRevealMode = RevealModeCheckBox.IsChecked == true ? PasswordRevealMode.Visible : PasswordRevealMode.Hidden;
+        }
+
         private void OnResetPasswordClick(object sender, RoutedEventArgs e)
         {
-            ViewModel.NewPassword = NewPasswordBox.Password;
+            ViewModel.NewPassword = PasswordBoxWithRevealMode.Password;
             ViewModel.ConfirmPassword = ConfirmPasswordBox.Password;
-
+            string passwordStrength = GetPasswordStrength(PasswordBoxWithRevealMode.Password);
+            if (passwordStrength == "Weak")
+            {
+                ShowDialog("Weak Password", "Password must be at least Medium strength. Include an uppercase letter, a special character, and a digit.");
+                return;
+            }
             if (ViewModel.ResetPassword(ViewModel.NewPassword))
             {
                 ViewModel.StatusMessage = "Password reset successfully!";
                 // Optionally navigate back to login page
                 Frame.Navigate(typeof(LoginPage));
             }
+        }
+
+        private async Task ShowDialog(string title, string content)
+        {
+            ContentDialog dialog = new ContentDialog
+            {
+                Title = title,
+                Content = content,
+                CloseButtonText = "OK",
+                XamlRoot = this.XamlRoot
+            };
+            await dialog.ShowAsync();
         }
     }
 }
