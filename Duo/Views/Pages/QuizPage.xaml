@@ -2,7 +2,7 @@
     x:Class="DuolingoNou.Views.Pages.QuizPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:DuolingoNou.Models"
+    xmlns:local="using:Duo.Models"
     xmlns:viewmodels="using:DuolingoNou.ViewModels"
     xmlns:helpers="using:DuolingoNou.Helpers"
     Foreground="Black"
@@ -12,9 +12,7 @@
         <helpers:PercentageConverter x:Key="PercentageConverter"/>
     </Page.Resources>
 
-    <Page.DataContext>
-        <viewmodels:CourseViewModel/>
-    </Page.DataContext>
+    
 
 
     <Grid Padding="20">
@@ -30,7 +28,7 @@
 
             <!-- Quizzes ListView -->
             <ListView x:Name="QuizzesList" 
-                      ItemsSource="{x:Bind ViewModel.CompletedQuizzes}"
+                      ItemsSource="{x:Bind ViewModel.CompletedQuizzes, Mode=OneWay}"
                       IsItemClickEnabled="True">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="local:Quiz">

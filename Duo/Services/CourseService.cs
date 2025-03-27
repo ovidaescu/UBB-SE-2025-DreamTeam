@@ -9,7 +9,7 @@ namespace DuolingoNou.Services
 {
     public interface ICourseService
     {
-        Task<List<Course>> GetEnrolledCoursesAsync();
+        Task<List<MyCourse>> GetEnrolledCoursesAsync();
     }
     public class MockCourseService : ICourseService
     {
@@ -27,7 +27,7 @@ namespace DuolingoNou.Services
             "Data Science", "Machine Learning", "DevOps"
         };
 
-        public async Task<List<Course>> GetEnrolledCoursesAsync()
+        public async Task<List<MyCourse>> GetEnrolledCoursesAsync()
         {
             await Task.Delay(100); // Simulate async operation
             var random = new Random();
@@ -36,7 +36,7 @@ namespace DuolingoNou.Services
             int courseCount = random.Next(10, 21);
 
             return Enumerable.Range(1, courseCount)
-                .Select(i => new Course
+                .Select(i => new MyCourse
                 {
                     Id = Guid.NewGuid().ToString(),
                     Name = $"{ProgrammingLanguages[random.Next(ProgrammingLanguages.Length)]} {CourseTypes[random.Next(CourseTypes.Length)]} Course",

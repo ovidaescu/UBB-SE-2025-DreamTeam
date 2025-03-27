@@ -50,7 +50,7 @@
             </NavigationViewItem>
 
             <!-- Other Main Items -->
-            <NavigationViewItem Content="MyCourses" Icon="Library" Tag="Courses" />
+            <NavigationViewItem Content="MyCourses" Icon="Library" Tag="Course" />
             <NavigationViewItem Content="MyQuiz" Icon="Help" Tag="Quiz" />
         </NavigationView.MenuItems>
 

@@ -31,6 +31,12 @@ namespace DuolingoNou.Views
                     case "Stats":
                         ContentFrame.Navigate(typeof(AchievementsPage)); // create this later
                         break;
+                    case "Course":
+                        ContentFrame.Navigate(typeof(CoursePage)); // create this later
+                        break;
+                    case "Quiz":
+                        ContentFrame.Navigate(typeof(QuizPage)); // create this later
+                        break;
                 }
             }
         }

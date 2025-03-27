@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace DuolingoNou.ViewModels
 {
-
     public class QuizViewModel : INotifyPropertyChanged
     {
         private readonly IQuizService _quizService;

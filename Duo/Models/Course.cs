@@ -4,17 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Duo.Models
-{
-    public class Course
-    {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public string Language { get; set; }
-        public double CompletionPercentage { get; set; }
-        public DateTime EnrollmentDate { get; set; }
+namespace Duo.Models;
 
-        // Added formatted property
-        public string FormattedCompletion => $"{CompletionPercentage * 100:F0}%";
-    }
+public class Course
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public int TotalNumOfLessons { get; set; }
+
 }

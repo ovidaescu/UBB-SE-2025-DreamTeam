@@ -10,9 +10,9 @@ namespace DuolingoNou.ViewModels
     public class CourseViewModel : INotifyPropertyChanged
     {
         private readonly ICourseService _courseService;
-        private ObservableCollection<Course> _enrolledCourses;
+        private ObservableCollection<MyCourse> _enrolledCourses;
 
-        public ObservableCollection<Course> EnrolledCourses
+        public ObservableCollection<MyCourse> EnrolledCourses
         {
             get => _enrolledCourses;
             set
@@ -25,7 +25,7 @@ namespace DuolingoNou.ViewModels
         public CourseViewModel(ICourseService courseService = null)
         {
             _courseService = courseService ?? new MockCourseService();
-            EnrolledCourses = new ObservableCollection<Course>();
+            EnrolledCourses = new ObservableCollection<MyCourse>();
             LoadCoursesAsync();
         }
 
