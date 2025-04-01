@@ -134,7 +134,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Repo\" />
+    <Folder Include="Repos\" />
     <Folder Include="ViewModel\" />
     <Folder Include="View\" />
     <Folder Include="Objects\" />
